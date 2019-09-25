@@ -1,3 +1,13 @@
+
+*.*~
+**/settings.ini
+**/config.py
+
+
+log/*
+.vscode/
+**/node_modules/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -102,3 +112,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+## editor
+.vscode
+## JS
+node_modules
+
