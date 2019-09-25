@@ -1,2 +1,2 @@
 # floraOccitania
-Sasie des noms vernaculaire en occitant
+Sasie des noms vernaculaire en occitan
