@@ -12,9 +12,9 @@
             <img src="{{m.url}}" alt="{{m.titre}}" class="img-thumbnail rounded">
         </div>
     </div>
-    
+
     <div class="rounded p-3 mb-2 alert alert-dark">
         <div *ngFor="let a of taxon.attributs">  {{a.label_attribut}} :  {{a.valeur_attribut}}</div>
     </div>
-
+    {{nomVerns|json}}
 </div>

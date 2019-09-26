@@ -16,27 +16,26 @@ export class TaxhubService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     withCredentials: true
   };
-   
+
 
   constructor(
     private _http: HttpClient
   ) { }
 
- 
+
   searchTaxonByName(search: string): Observable<any> {
     const url = `${AppSettings.TAXHUB_ENDPOINT}taxref/allnamebylist/${AppSettings.ID_LIST}`;
 
     let data = {search_name: search, limit: "20"};
 
     return this._http.get<any>(
-      url, 
+      url,
       {params: data}
     )
-  } 
+  }
 
   getTaxonDetail(id_nom: number): Observable<any> {
     const url = `${AppSettings.TAXHUB_ENDPOINT}bibnoms/${id_nom}`;
-
     return this._http.get<any>(url);
   }
 }
