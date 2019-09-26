@@ -1,5 +1,7 @@
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import ForeignKey, Integer
+"""
+    Définition des models
+"""
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import ARRAY
 
@@ -21,6 +23,7 @@ class CorTaxonAttribut(db.Model):
     )
     valeur_attribut = db.Column(db.Text, nullable=False)
 
+
 @serializable
 class Sources(db.Model):
     __tablename__ = "t_sources"
@@ -30,6 +33,7 @@ class Sources(db.Model):
     auteurs = db.Column(db.Unicode)
     titre = db.Column(db.Unicode)
     isbn = db.Column(db.Unicode)
+
 
 @serializable
 class NomVern(db.Model):
@@ -55,6 +59,7 @@ class NomVern(db.Model):
         Sources,
         lazy="select"
     )
+
 
 @serializable
 class ListTaxon(db.Model):
