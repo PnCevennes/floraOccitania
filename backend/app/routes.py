@@ -1,9 +1,10 @@
 # coding: utf8
-from flask import jsonify, json, Blueprint, request, Response
+from flask import jsonify, json, Blueprint, request, Response, current_app
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import select, or_
+from sqlalchemy.orm.exc import NoResultFound
 
-from .models import NomVern, ListTaxon
+from .models import NomVern, ListTaxon, Sources, CorTaxonAttribut
 
 from .database import db
 adresses = Blueprint('flora_occitania', __name__)
@@ -19,6 +20,13 @@ def get_nomocc_fortaxon(id=None):
 
     return {'items': [attribut.as_dict() for attribut in data]}
 
+
+
+@adresses.route('/sources', methods=['GET'])
+def get_all_sources(id=None):
+    data = db.session.query(Sources).all()
+
+    return {'items': [attribut.as_dict() for attribut in data]}
 
 @adresses.route('/', methods=['GET'])
 @adresses.route('/<int:id>', methods=['GET'])
@@ -36,18 +44,43 @@ def get_taxon_list(id=None):
 @adresses.route('/<int:cd_ref>', methods=['POST'])
 def post_taxon_nomVern(cd_ref):
     data = request.json
+    lst_nom_verns = data['params']['nomVerns']
+
+    #  ##########################
+    # Insertion du commentaire général dans taxhub
+
+    if 'commentaire_general' in data['params']:
+        cmt = data['params']['commentaire_general']
+        try:
+            taxhub_attr = db.session.query(CorTaxonAttribut).filter_by(
+                cd_ref=cd_ref, id_attribut=current_app.config['ID_ATTR_TAXHUB']
+            ).one()
+        except NoResultFound :
+            taxhub_attr = CorTaxonAttribut(
+                cd_ref=cd_ref,
+                id_attribut=current_app.config['ID_ATTR_TAXHUB']
+            )
+        taxhub_attr.valeur_attribut = cmt
+
+        print(taxhub_attr.valeur_attribut)
+
+        db.session.add(taxhub_attr)
+        db.session.commit()
+
+
+    #  ##########################
+    #  Insertion des noms vernaculaires
+    #  ##########################
 
     coll = db.session.query(NomVern).filter_by(
         cd_ref=cd_ref
     ).all()
-
     # liste des identifiants existants
     ids_nom = [
         nom['id_nomvern']
-        for nom in data['params']
+        for nom in lst_nom_verns
         if 'id_nomvern' in nom
     ]
-    print (ids_nom)
 
     # Noms supprimés
     ids_del = [
@@ -61,7 +94,8 @@ def post_taxon_nomVern(cd_ref):
         ).first()
         db.session.delete(n)
 
-    for nom in data['params']:
+    # Ajout/modification des noms
+    for nom in lst_nom_verns:
         if 'id_nomvern' in nom:
             n = db.session.query(NomVern).filter_by(
                 id_nomvern=nom['id_nomvern']
@@ -70,6 +104,8 @@ def post_taxon_nomVern(cd_ref):
             n = NomVern()
 
         for key, value in nom.items():
+            if not value:
+                value = None
             setattr(n, key, value)
 
         db.session.add(n)

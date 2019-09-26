@@ -30,10 +30,18 @@ WITH d AS (
             ('FO_USAGE', 'ARTISANAL', 'Artisanal'),
             ('FO_USAGE', 'CROYANCES', 'Croyances et religions'),
             ('FO_USAGE', 'TRADITION', 'Tradition orale'),
+            ('FO_PARTIE_PLANTE', 'PLANTE_ENTIERE', 'Plante entière'),
             ('FO_PARTIE_PLANTE', 'TIGE', 'Tige'),
-            ('FO_PARTIE_PLANTE', 'RACINE', 'Racine'),
-            ('FO_PARTIE_PLANTE', 'FLEUR', 'Fleur'),
-        ('FO_PARTIE_PLANTE', 'FRUIT', 'Fruit')
+            ('FO_PARTIE_PLANTE', 'RAMEAUX', 'Rameaux'),
+            ('FO_PARTIE_PLANTE', 'FEUILLES', 'Feuilles'),
+            ('FO_PARTIE_PLANTE', 'FLEURS', 'Fleurs'),
+            ('FO_PARTIE_PLANTE', 'BOURGEONS', 'Bourgeons'),
+            ('FO_PARTIE_PLANTE', 'FRUITS', 'Fruits'),
+            ('FO_PARTIE_PLANTE', 'RACINES', 'Racines'),
+            ('FO_PARTIE_PLANTE', 'BULBES', 'Bulbes'),
+            ('FO_PARTIE_PLANTE', 'RHIZOMES', 'Rhizomes'),
+            ('FO_PARTIE_PLANTE', 'SPORANGES', 'Sporanges'),
+            ('FO_PARTIE_PLANTE', 'NON_PRECISE', 'Non précisé')
     ) as t(type, code, label)
 ), a AS (
     SELECT b.id_type, d.code as cd_nomenclature, d.label as mnemonique, d.label as label_fr, d.label as label_default ,
@@ -177,19 +185,43 @@ ALTER TABLE flora_occitania.t_nom_vernaculaires
 
 -- Tableau de bord
 -- Vue
+
 CREATE OR REPLACE VIEW flora_occitania.v_list_summary_taxon_to_fill AS
-WITH nom_occ AS (
-    SELECT cd_ref, count(*)
-    FROM flora_occitania.t_nom_vernaculaires
-    GROUP BY cd_ref
-)
-SELECT DISTINCT n.id_nom, COALESCE(o.count, 0) as nb_nom_occ, t.cd_nom, t.cd_ref, t.nom_vern, t.nom_complet, t.famille , t.url
-FROM taxonomie.cor_nom_liste l
-JOIN taxonomie.bib_noms  n
-ON l.id_nom = n.id_nom
-JOIN taxonomie.taxref t
-ON t.cd_nom = n.cd_ref
-LEFT OUTER JOIN nom_occ o
-ON t.cd_nom = o.cd_ref
-WHERE id_liste = 68
-ORDER BY famille, nom_complet;
+ WITH nom_occ AS (
+         SELECT t_nom_vernaculaires.cd_ref,
+            count(*) AS count
+           FROM flora_occitania.t_nom_vernaculaires
+          GROUP BY t_nom_vernaculaires.cd_ref
+        )
+ SELECT DISTINCT n.id_nom,
+    COALESCE(o.count, 0::bigint) AS nb_nom_occ,
+    t.cd_nom,
+    t.cd_ref,
+    t.nom_vern,
+    t.nom_complet,
+    t.famille,
+    t.url,
+    cmt.valeur_attribut AS commentaire_general
+   FROM taxonomie.cor_nom_liste l
+     JOIN taxonomie.bib_noms n ON l.id_nom = n.id_nom
+     JOIN taxonomie.taxref t ON t.cd_nom = n.cd_ref
+     LEFT JOIN nom_occ o ON t.cd_nom = o.cd_ref
+     LEFT JOIN taxonomie.cor_taxon_attribut cmt ON t.cd_nom = cmt.cd_ref AND id_attribut = 50018
+  WHERE l.id_liste = 68
+  ORDER BY t.famille, t.nom_complet;
+
+
+--- ##############################################################################################
+--- ##############################################################################################
+--              Données flore occitan
+--- ##############################################################################################
+--- ##############################################################################################
+INSERT INTO flora_occitania.t_sources( citation, auteurs, titre, isbn)
+VALUES
+  ('Vaissiera (Claudi), Botanica Occitana', 'Vaissiera (Claudi)', 'Botanica Occitana', NULL),
+  ('Renaux (Alain), Le Savoir en herbe', 'Renaux (Alain)', 'Le Savoir en herbe', NULL),
+  ('Wienin (Michel), Base de données FLORA- petite flore occitane des Garrigues et des Cévennes', 'Wienin (Michel)', 'petite flore occitane des Garrigues et des Cévennes', NULL),
+  ('Rodrigues Dos Santos (José), Savoirs de la nature, nature des savoirs', 'Rodrigues Dos Santos', 'Savoirs de la nature, nature des savoirs', NULL),
+  ('Ecologistes de l’Euzière : Les salades sauvages', 'Ecologistes de l’Euzière', 'Les salades sauvages', NULL),
+  ('Revue Cévennes 38-39, le Jardin des plantes', 'Parc national des Cévennes', 'le Jardin des plantes', NULL)
+;

@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import {
-  debounceTime, distinctUntilChanged
+import {debounceTime, distinctUntilChanged} from "rxjs/operators";
 
-} from "rxjs/operators";
+import { NomenclatureService } from 'src/app/services/nomenclature.service';
 
 @Component({
   selector: 'app-multiselect-nomenclature',
@@ -15,10 +14,11 @@ export class MultiselectNomenclatureComponent implements OnInit {
   public searchControl = new FormControl();
   public formControlValue = [];
   public savedValues = [];
-
+  public values = [];
+  
   @Input() parentFormControl: FormControl;
   //** Valeurs à afficher dans la liste déroulante. Doit être un tableau de dictionnaire */
-  @Input() values: Array<any>;
+  @Input() codeNomenclature:string;
   /**
    * Clé du dictionnaire de valeur que le composant doit prendre pour l'affichage de la liste déroulante
    */
@@ -40,7 +40,7 @@ export class MultiselectNomenclatureComponent implements OnInit {
   @Output() onChange = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();
 
-  constructor() {}
+  constructor(private nomenclatureService:NomenclatureService) {}
 
   // Component to generate a custom multiselect input with a search bar (which can be disabled)
   // you can pass whatever callback to the onSearch output, to trigger database research or simple search on an array
@@ -52,13 +52,21 @@ export class MultiselectNomenclatureComponent implements OnInit {
     this.displayAll = this.displayAll || false;
 
 
-    // subscribe and output on the search bar
-    this.searchControl.valueChanges.pipe(
-        debounceTime(this.debounceTime),
-        distinctUntilChanged()
-      ).subscribe(value => {
-        this.onSearch.emit(value);
-      });
+    this.nomenclatureService.getNomenclature(this.codeNomenclature).subscribe(
+      data =>{
+        this.values = data.values;// set the value
+        if (this.values && this.parentFormControl.value) {
+          this.values.forEach(value => {
+            if (this.parentFormControl.value.indexOf(value[this.keyValue]) !== -1) {
+              this.selectedItems.push(value);
+            }
+          });
+        }
+  
+        // remove doublon in the dropdown lists
+        this.removeDoublon();
+      }
+    );
 
     this.parentFormControl.valueChanges.subscribe(value => {
       // filter the list of options to not display twice an item
@@ -119,38 +127,18 @@ export class MultiselectNomenclatureComponent implements OnInit {
   }
 
   removeDoublon() {
-    if (this.values && this.formControlValue) {
+    if (this.values && this.parentFormControl.value) {
       this.values = this.values.filter(v => {
         let isInArray = false;
 
-        this.formControlValue.forEach(element => {
+        this.parentFormControl.value.forEach(element => {
           if (v[this.keyValue] === element) {
             isInArray = true;
           }
-        });
+        }); 
         return !isInArray;
       });
     }
   }
 
-  ngOnChanges(changes) {
-    if (changes.values && changes.values.currentValue) {
-      this.savedValues = changes.values.currentValue;
-      // set the value
-      if (this.values && this.parentFormControl.value) {
-        this.values.forEach(value => {
-          if (this.parentFormControl.value.indexOf(value[this.keyValue]) !== -1) {
-            this.selectedItems.push(value);
-          }
-        });
-      }
-
-      // remove doublon in the dropdown lists
-      this.removeDoublon()
-      // @FIXME: timeout to wait for the formcontrol to be updated
-      setTimeout(() => {
-        this.removeDoublon();
-      }, 2000);
-    }
-  }
 }

@@ -4,6 +4,18 @@
 
 <div class="alert alert-dark">
 <form [formGroup]="nomVernForm" (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <label style="margin-right:80px;" class="col-form-label" for="commentaire_general">Commentaire global</label>
+    <textarea
+        class="form-control"
+        id="commentaire_general"
+        placeholder="Résumé général concernant le taxon"
+        name="type"
+        formControlName="commentaire_general"
+        style="margin-right:5px;"
+        rows="5"
+    ></textarea>
+
+    <label style="margin-right:80px;" class="col-form-label">Noms vernaculaires</label>
     <div formArrayName="nomVerns">
         <div
             class="rounded p-3 mb-2 card"
@@ -22,52 +34,69 @@
                              formControlName="nom_vernaculaire"
                              style="margin-right:5px;"
                              required>
-
+                      <label style="margin-right:80px;" class="col-form-label" for="commentaire_nom">Commentaire nom</label>
+                      <textarea
+                          class="form-control"
+                          id="commentaire_nom"
+                          placeholder="Commentaire"
+                          name="type"
+                          formControlName="commentaire_nom"
+                          style="margin-right:5px;"
+                          rows="2"
+                      ></textarea>
                       <app-multiselect-nomenclature
-                          [values]="nomenclature_localisation"
+                          codeNomenclature="FO_LOCALISATION"
                           [parentFormControl]="nomVern.controls.localisations"
                           keyLabel="label_default"
                           keyValue="id_nomenclature"
                           fieldLabel="Localisations"
                           debounceTime="500"
-                          [searchBar]="true"
-                          [disabled]="disabled"
-                          [displayAll]="true"
                       ></app-multiselect-nomenclature>
 
                       <app-multiselect-nomenclature
-                          [values]="nomenclature_partie_pl"
+                          codeNomenclature="FO_PARTIE_PLANTE"
                           [parentFormControl]="nomVern.controls.parties_utilisees"
                           keyLabel="label_default"
                           keyValue="id_nomenclature"
                           fieldLabel="Parties utilisées"
                           debounceTime="500"
-                          [searchBar]="true"
-                          [disabled]="disabled"
-                          [displayAll]="true"
                       ></app-multiselect-nomenclature>
 
                       <app-multiselect-nomenclature
-                          [values]="nomenclature_usages"
+                          codeNomenclature="FO_USAGE"
                           [parentFormControl]="nomVern.controls.usages"
                           keyLabel="label_default"
                           keyValue="id_nomenclature"
                           fieldLabel="Usages"
                           debounceTime="500"
-                          [searchBar]="true"
-                          [disabled]="disabled"
-                          [displayAll]="true"
                       ></app-multiselect-nomenclature>
 
-                        <label style="margin-right:80px;" class="col-form-label" for="commentaire">Commentaire</label>
-                        <input type="text"
-                            class="form-control"
-                            id="commentaire"
-                            placeholder="Commentaire"
-                            name="type"
-                            formControlName="commentaire"
-                            style="margin-right:5px;"
-                            required>
+                      <label style="margin-right:80px;" class="col-form-label" for="commentaire_usage">Commentaire usage</label>
+                      <textarea
+                          class="form-control"
+                          id="commentaire_usage"
+                          placeholder="Commentaire usage"
+                          name="type"
+                          formControlName="commentaire_usage"
+                          style="margin-right:5px;"
+                          rows="3"
+                      ></textarea>
+
+
+                      <label style="margin-right:80px;" class="col-form-label" for="source">Source</label>
+                      <select class="form-control" formControlName="id_source" id="source">
+                        <option [value]="source.id_source" *ngFor="let source of sources">{{source.citation}}</option>
+                      </select>
+                      <label style="margin-right:80px;" class="col-form-label" for="source_pages">Num Page(s)</label>
+                      <input type="text"
+                             class="form-control"
+                             id="source_pages"
+                             placeholder="Num Page(s)"
+                             name="type"
+                             formControlName="source_pages"
+                             style="margin-right:5px;"
+                      >
+
                     </div>
                   </div>
                   <button style="margin-left:35px;" type="button" class="btn btn-danger"

@@ -27,7 +27,7 @@ export class FloraOccitaniaService {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })
-  }  
+  }
 
   constructor(
     private _http: HttpClient
@@ -36,7 +36,11 @@ export class FloraOccitaniaService {
   getConcernedTaxon(): Observable<any> {
     return this._http.get<any>(AppSettings.API_ENDPOINT);
   }
-  
+
+  getSources(): Observable<any> {
+    return this._http.get<any>(AppSettings.API_ENDPOINT + "sources");
+  }
+
   getTaxonDetail(id): Observable<any> {
     const url =  `${AppSettings.API_ENDPOINT}${id}` ;
     return this._http.get<any>(url);
@@ -46,7 +50,7 @@ export class FloraOccitaniaService {
     const url =  `${AppSettings.API_ENDPOINT}${cd_ref}`;
     console.log(url);
     return this._http.post<any>(
-      url, 
+      url,
       {params:data}
     )
   }

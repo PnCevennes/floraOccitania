@@ -6,6 +6,21 @@ from sqlalchemy.dialects.postgresql import ARRAY
 from app.database import db
 from app.utils import serializable
 
+
+@serializable
+class CorTaxonAttribut(db.Model):
+    __tablename__ = "cor_taxon_attribut"
+    __table_args__ = {"schema": "taxonomie"}
+    id_attribut = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+    cd_ref = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+    valeur_attribut = db.Column(db.Text, nullable=False)
+
 @serializable
 class Sources(db.Model):
     __tablename__ = "t_sources"
@@ -54,6 +69,7 @@ class ListTaxon(db.Model):
     nom_complet = db.Column(db.Unicode)
     famille = db.Column(db.Unicode)
     url = db.Column(db.Unicode)
+    commentaire_general = db.Column(db.Unicode)
 
     noms_occitan = relationship(
         "NomVern",
