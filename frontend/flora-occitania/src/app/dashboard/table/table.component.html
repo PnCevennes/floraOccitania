@@ -1,0 +1,22 @@
+<table class="table table-striped"  datatable *ngIf="taxonlist">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">cd_ref</th>
+      <th scope="col">cd_nom</th>
+      <th scope="col">nom_vern</th>
+      <th scope="col">nom_complet</th>
+      <th scope="col">nb_nom_occ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let t of taxonlist" >
+      <th scope="row"><a href="detail/{{ t.id_nom }}">D</a></th>
+      <td>{{ t.cd_ref }}</td>
+      <td>{{ t.cd_nom }}</td>
+      <td>{{ t.nom_vern }}</td>
+      <td>{{ t.nom_complet }}</td>
+      <td>{{ t.nb_nom_occ }}</td>
+    </tr>
+  </tbody>
+</table>

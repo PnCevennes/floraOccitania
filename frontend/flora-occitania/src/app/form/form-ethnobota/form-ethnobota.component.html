@@ -1,0 +1,96 @@
+
+<div *ngIf="taxon">
+<h4>{{taxon.nom_complet}}</h4>
+
+<div class="alert alert-dark">
+<form [formGroup]="nomVernForm" (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <div formArrayName="nomVerns">
+        <div
+            class="rounded p-3 mb-2 card"
+            *ngFor="let nomVern of nomVernForm.get('nomVerns').controls; let i=index"
+        >
+            <fieldset>
+                <div [formGroupName]="i">
+                  <div class="form">
+                    <div class="form-group">
+                      <label style="margin-right:80px;" class="col-form-label" for="nom_vernaculaire">Nom</label>
+                      <input type="text"
+                             class="form-control"
+                             id="nom_vernaculaire"
+                             placeholder="Nom occitan"
+                             name="type"
+                             formControlName="nom_vernaculaire"
+                             style="margin-right:5px;"
+                             required>
+
+                      <app-multiselect-nomenclature
+                          [values]="nomenclature_localisation"
+                          [parentFormControl]="nomVern.controls.localisations"
+                          keyLabel="label_default"
+                          keyValue="id_nomenclature"
+                          fieldLabel="Localisations"
+                          debounceTime="500"
+                          [searchBar]="true"
+                          [disabled]="disabled"
+                          [displayAll]="true"
+                      ></app-multiselect-nomenclature>
+
+                      <app-multiselect-nomenclature
+                          [values]="nomenclature_partie_pl"
+                          [parentFormControl]="nomVern.controls.parties_utilisees"
+                          keyLabel="label_default"
+                          keyValue="id_nomenclature"
+                          fieldLabel="Parties utilisées"
+                          debounceTime="500"
+                          [searchBar]="true"
+                          [disabled]="disabled"
+                          [displayAll]="true"
+                      ></app-multiselect-nomenclature>
+
+                      <app-multiselect-nomenclature
+                          [values]="nomenclature_usages"
+                          [parentFormControl]="nomVern.controls.usages"
+                          keyLabel="label_default"
+                          keyValue="id_nomenclature"
+                          fieldLabel="Usages"
+                          debounceTime="500"
+                          [searchBar]="true"
+                          [disabled]="disabled"
+                          [displayAll]="true"
+                      ></app-multiselect-nomenclature>
+
+                        <label style="margin-right:80px;" class="col-form-label" for="commentaire">Commentaire</label>
+                        <input type="text"
+                            class="form-control"
+                            id="commentaire"
+                            placeholder="Commentaire"
+                            name="type"
+                            formControlName="commentaire"
+                            style="margin-right:5px;"
+                            required>
+                    </div>
+                  </div>
+                  <button style="margin-left:35px;" type="button" class="btn btn-danger"
+                      (click)="deleteNomVern(i)"
+                  > Supprimer </button>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+</form>
+
+<button style="margin-top:5px; margin-bottom:5px;" type="button" class="btn btn-success btn-sm"
+(click)="addNewNomVern()">
+<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Ajouter nom vern
+</button>
+
+</div>
+<button style="margin-top:5px; margin-bottom:5px;" type="button" class="btn btn-primary btn-sm"
+(click)="submit()">
+    Enregister
+</button>
+</div>
+<hr/>
+<pre> {{nomVernForm.value|json}} </pre>
+<hr/>
+<pre> {{taxon|json}} </pre>

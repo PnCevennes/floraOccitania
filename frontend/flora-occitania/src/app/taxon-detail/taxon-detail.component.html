@@ -1,0 +1,20 @@
+<div *ngIf="taxon">
+    <h3 [innerHTML]="taxon.taxref.nom_complet_html"></h3>
+    <a href="form/{{taxon.id_nom}}" class="btn btn-primary">Editer</a>
+    <div class="rounded p-3 mb-2 alert alert-dark">
+        <div>cd_nom : <span>{{taxon.cd_nom}}</span></div>
+        <div>cd_ref : <span>{{taxon.cd_ref}}</span></div>
+        <div>nom_vern : <span>{{taxon.taxref.nom_vern}}</span></div>
+    </div>
+
+    <div class="rounded p-3 mb-2 alert alert-dark row">
+        <div *ngFor="let m of taxon.medias" class="col-md-3">
+            <img src="{{m.url}}" alt="{{m.titre}}" class="img-thumbnail rounded">
+        </div>
+    </div>
+    
+    <div class="rounded p-3 mb-2 alert alert-dark">
+        <div *ngFor="let a of taxon.attributs">  {{a.label_attribut}} :  {{a.valeur_attribut}}</div>
+    </div>
+
+</div>
