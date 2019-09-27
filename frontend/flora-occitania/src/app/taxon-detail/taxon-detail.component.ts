@@ -15,15 +15,15 @@ import { NomenclatureService } from '../services/nomenclature.service';
 })
 export class TaxonDetailComponent implements OnInit {
 
-  taxon: TaxonList;
+  taxon: any;
   nomVerns: any;
   nomenclatureValue: any;
 
   constructor(
-    private floraOccitaniaService: FloraOccitaniaService,
-    private taxhubService: TaxhubService,
+    public floraOccitaniaService: FloraOccitaniaService,
+    public taxhubService: TaxhubService,
     private route: ActivatedRoute,
-    private nomenclatureService: NomenclatureService,
+    public nomenclatureService: NomenclatureService,
     private location: Location
   ) { }
 

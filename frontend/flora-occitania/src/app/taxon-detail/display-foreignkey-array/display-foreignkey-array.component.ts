@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class DisplayForeignkeyArrayComponent implements OnInit {
   @Input() valuesRef: Array<any>;
-  @Input() valuesIds: Array<int>;
+  @Input() valuesIds: Array<any>;
   @Input() keyLabel: string;
   @Input() keyValue: string;
 

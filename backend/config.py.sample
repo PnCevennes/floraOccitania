@@ -1,0 +1,10 @@
+'''
+Flora occitania global settings file
+'''
+
+# Database settings
+SQLALCHEMY_DATABASE_URI = "postgresql://user:pass@host/db"
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+ENABLE_NOMENCLATURE_TAXONOMIC_FILTERS = True
+ID_ATTR_TAXHUB = 50018
+

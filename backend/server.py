@@ -29,10 +29,10 @@ def init_app():
         app.config['DB'] = db
 
         from pypnnomenclature.routes import routes
-        app.register_blueprint(routes, url_prefix="/api/nomenclatures")
+        app.register_blueprint(routes, url_prefix="/nomenclatures")
 
         from app.routes import adresses
-        app.register_blueprint(adresses, url_prefix='/api')
+        app.register_blueprint(adresses, url_prefix='')
 
     return app
 

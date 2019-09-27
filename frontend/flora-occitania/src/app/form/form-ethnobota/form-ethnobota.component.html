@@ -3,7 +3,7 @@
 <h4>{{taxon.nom_complet}}</h4>
 
 <div class="alert alert-dark">
-<form [formGroup]="nomVernForm" (ngSubmit)="onSubmit(f)" #f="ngForm">
+<form [formGroup]="nomVernForm" #f="ngForm">
     <label style="margin-right:80px;" class="col-form-label" for="commentaire_general">Commentaire global</label>
     <textarea
         class="form-control"
@@ -19,7 +19,7 @@
     <div formArrayName="nomVerns">
         <div
             class="rounded p-3 mb-2 card"
-            *ngFor="let nomVern of nomVernForm.get('nomVerns').controls; let i=index"
+            *ngFor="let nomVern of nomVernForm.get('nomVerns')['controls']; let i=index"
         >
             <fieldset>
                 <div [formGroupName]="i">

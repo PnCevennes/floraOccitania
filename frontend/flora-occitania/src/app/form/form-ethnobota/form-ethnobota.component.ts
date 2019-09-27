@@ -26,9 +26,9 @@ export class FormEthnobotaComponent implements OnInit {
   });
 
   constructor(
-    private floraOccitaniaService: FloraOccitaniaService,
-    private nomenclatureService: NomenclatureService,
-    private taxhubService: TaxhubService,
+    public floraOccitaniaService: FloraOccitaniaService,
+    public nomenclatureService: NomenclatureService,
+    public taxhubService: TaxhubService,
     private route: ActivatedRoute,
     private location: Location,
     private formBuilder: FormBuilder,
