@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule , APP_INITIALIZER } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { DataTablesModule } from 'angular-datatables';
 
@@ -13,13 +13,28 @@ import { FormEthnobotaComponent } from './form/form-ethnobota/form-ethnobota.com
 import { MyCustomInterceptor } from './services/http.interceptor';
 import { MultiselectNomenclatureComponent } from './form/generic-form/multiselect-nomenclature/multiselect-nomenclature.component';
 
+import {NomenclatureService} from './services/nomenclature.service';
+import { DisplayNomenclatureValueComponent } from './taxon-detail/display-nomenclature-value/display-nomenclature-value.component';
+
+export function initApp(nomeclatureService: NomenclatureService) {
+  return (): Promise<any> => {
+    return nomeclatureService.initNomenclature()
+      .toPromise()
+      .then((resp) => {
+        console.log('Response 1 - ', resp);
+      });
+  };
+}
+
+
 @NgModule({
   declarations: [
     AppComponent,
     TableComponent,
     TaxonDetailComponent,
     FormEthnobotaComponent,
-    MultiselectNomenclatureComponent
+    MultiselectNomenclatureComponent,
+    DisplayNomenclatureValueComponent
   ],
   imports: [
     BrowserModule,
@@ -30,8 +45,14 @@ import { MultiselectNomenclatureComponent } from './form/generic-form/multiselec
     DataTablesModule
   ],
   providers: [
-    // { provide: HTTP_INTERCEPTORS, useClass: MyCustomInterceptor, multi: true }
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initApp,
+      multi: true,
+      deps: [NomenclatureService]
+    }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
