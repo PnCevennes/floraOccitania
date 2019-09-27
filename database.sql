@@ -156,8 +156,7 @@ CREATE TABLE flora_occitania.t_nom_vernaculaires (
     usages int[],
     parties_utilisees int[],
     commentaire_usage varchar,
-    id_source int REFERENCES flora_occitania.t_sources(id_source),
-    source_pages varchar,
+    id_sources int[]
     meta_create_date timestamp without time zone DEFAULT now(),
     meta_update_date timestamp without time zone,
     CONSTRAINT fk_t_nom_vernaculaires_bib_noms FOREIGN KEY (cd_ref)
@@ -189,12 +188,13 @@ ALTER TABLE flora_occitania.t_nom_vernaculaires
 CREATE OR REPLACE VIEW flora_occitania.v_list_summary_taxon_to_fill AS
  WITH nom_occ AS (
          SELECT t_nom_vernaculaires.cd_ref,
-            count(*) AS count
+            count(*) AS count, string_agg(nom_vernaculaire, ',') as agg_noms_occ
            FROM flora_occitania.t_nom_vernaculaires
           GROUP BY t_nom_vernaculaires.cd_ref
         )
  SELECT DISTINCT n.id_nom,
     COALESCE(o.count, 0::bigint) AS nb_nom_occ,
+    agg_noms_occ,
     t.cd_nom,
     t.cd_ref,
     t.nom_vern,
