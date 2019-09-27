@@ -44,32 +44,32 @@
                           style="margin-right:5px;"
                           rows="2"
                       ></textarea>
-                      <app-multiselect-nomenclature
-                          codeNomenclature="FO_LOCALISATION"
+                      <form-multiselect
+                          [values]="nomenclatureService.nomenclaturesValues['FO_LOCALISATION']"
                           [parentFormControl]="nomVern.controls.localisations"
                           keyLabel="label_default"
                           keyValue="id_nomenclature"
                           fieldLabel="Localisations"
                           debounceTime="500"
-                      ></app-multiselect-nomenclature>
+                      ></form-multiselect>
 
-                      <app-multiselect-nomenclature
-                          codeNomenclature="FO_PARTIE_PLANTE"
+                      <form-multiselect
+                          [values]="nomenclatureService.nomenclaturesValues['FO_PARTIE_PLANTE']"
                           [parentFormControl]="nomVern.controls.parties_utilisees"
                           keyLabel="label_default"
                           keyValue="id_nomenclature"
                           fieldLabel="Parties utilisées"
                           debounceTime="500"
-                      ></app-multiselect-nomenclature>
+                      ></form-multiselect>
 
-                      <app-multiselect-nomenclature
-                          codeNomenclature="FO_USAGE"
+                      <form-multiselect
+                          [values]="nomenclatureService.nomenclaturesValues['FO_USAGE']"
                           [parentFormControl]="nomVern.controls.usages"
                           keyLabel="label_default"
                           keyValue="id_nomenclature"
                           fieldLabel="Usages"
                           debounceTime="500"
-                      ></app-multiselect-nomenclature>
+                      ></form-multiselect>
 
                       <label style="margin-right:80px;" class="col-form-label" for="commentaire_usage">Commentaire usage</label>
                       <textarea
@@ -82,20 +82,14 @@
                           rows="3"
                       ></textarea>
 
-
-                      <label style="margin-right:80px;" class="col-form-label" for="source">Source</label>
-                      <select class="form-control" formControlName="id_source" id="source">
-                        <option [value]="source.id_source" *ngFor="let source of sources">{{source.citation}}</option>
-                      </select>
-                      <label style="margin-right:80px;" class="col-form-label" for="source_pages">Num Page(s)</label>
-                      <input type="text"
-                             class="form-control"
-                             id="source_pages"
-                             placeholder="Num Page(s)"
-                             name="type"
-                             formControlName="source_pages"
-                             style="margin-right:5px;"
-                      >
+                      <form-multiselect
+                          [values]="floraOccitaniaService.sources"
+                          [parentFormControl]="nomVern.controls.id_sources"
+                          keyLabel="citation"
+                          keyValue="id_source"
+                          fieldLabel="Sources"
+                          debounceTime="500"
+                      ></form-multiselect>
 
                     </div>
                   </div>
@@ -119,7 +113,3 @@
     Enregister
 </button>
 </div>
-<hr/>
-<pre> {{nomVernForm.value|json}} </pre>
-<hr/>
-<pre> {{taxon|json}} </pre>

@@ -22,6 +22,7 @@ export class TaxonList {
   providedIn: 'root'
 })
 export class FloraOccitaniaService {
+  sources:any;
   // Http Options
   httpOptions = {
     headers: new HttpHeaders({
@@ -51,7 +52,17 @@ export class FloraOccitaniaService {
     console.log(url);
     return this._http.post<any>(
       url,
-      {params:data}
+      {params: data}
     )
+  }
+
+  initSources(): Observable<any> {
+    return this.getSources().pipe(
+      map(
+        data => {
+          this.sources = data.items;
+        }
+      )
+    );
   }
 }

@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import {FloraOccitaniaService, TaxonList} from "../../services/flora-occitania.service";
+import {NomenclatureService} from "../../services/nomenclature.service";
 import {TaxhubService} from "../../services/taxhub.service";
 
 
@@ -26,6 +27,7 @@ export class FormEthnobotaComponent implements OnInit {
 
   constructor(
     private floraOccitaniaService: FloraOccitaniaService,
+    private nomenclatureService: NomenclatureService,
     private taxhubService: TaxhubService,
     private route: ActivatedRoute,
     private location: Location,
@@ -35,11 +37,7 @@ export class FormEthnobotaComponent implements OnInit {
 
   ngOnInit() {
     this.getTaxon();
-    this.floraOccitaniaService.getSources().subscribe(
-      data => {
-        this.sources = data.items;
-      }
-    );
+    console.log(this.floraOccitaniaService.sources);
   }
 
 
@@ -72,8 +70,7 @@ export class FormEthnobotaComponent implements OnInit {
       usages: new FormControl([]),
       parties_utilisees: new FormControl([]),
       commentaire_usage: [''],
-      id_source: [''],
-      source_pages: ['']
+      id_sources: new FormControl([])
     });
   }
 
@@ -88,12 +85,12 @@ export class FormEthnobotaComponent implements OnInit {
     }
   }
 
-  deleteNomVern(index):void{
+  deleteNomVern(index): void {
     let control = <FormArray>this.nomVernForm.controls.nomVerns;
     control.removeAt(index)
   }
 
-  submit(){
+  submit(): void {
     // Send new nom_verns
     this.floraOccitaniaService.postNomVern(
       this.taxon.cd_ref,

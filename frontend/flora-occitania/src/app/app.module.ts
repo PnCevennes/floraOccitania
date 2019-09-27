@@ -3,6 +3,7 @@ import { NgModule , APP_INITIALIZER } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { forkJoin } from 'rxjs';
 import { DataTablesModule } from 'angular-datatables';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,15 +12,21 @@ import { TableComponent } from './dashboard/table/table.component';
 import { TaxonDetailComponent } from './taxon-detail/taxon-detail.component';
 import { FormEthnobotaComponent } from './form/form-ethnobota/form-ethnobota.component';
 import { MyCustomInterceptor } from './services/http.interceptor';
-import { MultiselectNomenclatureComponent } from './form/generic-form/multiselect-nomenclature/multiselect-nomenclature.component';
+import { MultiselectComponent } from './form/generic-form/multiselect/multiselect.component';
 
 import {NomenclatureService} from './services/nomenclature.service';
-import { DisplayNomenclatureValueComponent } from './taxon-detail/display-nomenclature-value/display-nomenclature-value.component';
+import {FloraOccitaniaService} from './services/flora-occitania.service';
+import { DisplayForeignkeyArrayComponent } from './taxon-detail/display-foreignkey-array/display-foreignkey-array.component';
 
-export function initApp(nomeclatureService: NomenclatureService) {
+export function initApp(
+  nomeclatureService: NomenclatureService,
+  floraOccitaniaService: FloraOccitaniaService
+) {
   return (): Promise<any> => {
-    return nomeclatureService.initNomenclature()
-      .toPromise()
+    return forkJoin(
+        nomeclatureService.initNomenclature(),
+        floraOccitaniaService.initSources()
+      ).toPromise()
       .then((resp) => {
         console.log('Response 1 - ', resp);
       });
@@ -33,8 +40,8 @@ export function initApp(nomeclatureService: NomenclatureService) {
     TableComponent,
     TaxonDetailComponent,
     FormEthnobotaComponent,
-    MultiselectNomenclatureComponent,
-    DisplayNomenclatureValueComponent
+    MultiselectComponent,
+    DisplayForeignkeyArrayComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +56,7 @@ export function initApp(nomeclatureService: NomenclatureService) {
       provide: APP_INITIALIZER,
       useFactory: initApp,
       multi: true,
-      deps: [NomenclatureService]
+      deps: [NomenclatureService, FloraOccitaniaService]
     }
   ],
   bootstrap: [AppComponent]

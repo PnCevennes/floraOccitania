@@ -3,19 +3,19 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">cd_ref</th>
-      <th scope="col">cd_nom</th>
-      <th scope="col">nom_vern</th>
-      <th scope="col">nom_complet</th>
-      <th scope="col">nb_nom_occ</th>
+      <th scope="col">nom vern</th>
+      <th scope="col">nom complet</th>
+      <th scope="col">noms occitan</th>
+      <th scope="col">nb noms occ</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let t of taxonlist" >
-      <th scope="row"><a href="detail/{{ t.id_nom }}">D</a></th>
+      <th scope="row"><a href="detail/{{ t.id_nom }}"><span class="fa fa-info-circle"></span></a></th>
       <td>{{ t.cd_ref }}</td>
-      <td>{{ t.cd_nom }}</td>
       <td>{{ t.nom_vern }}</td>
       <td>{{ t.nom_complet }}</td>
+      <td>{{ t.agg_noms_occ }}</td>
       <td>{{ t.nb_nom_occ }}</td>
     </tr>
   </tbody>

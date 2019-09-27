@@ -1,31 +1,73 @@
 
 <div *ngIf="taxon">
     <h3 [innerHTML]="taxon.taxref.nom_complet_html"></h3>
-    <a href="form/{{taxon.id_nom}}" class="btn btn-primary">Editer</a>
     <div class="rounded p-3 mb-2 alert alert-dark">
+        <h4>Info taxon</h4>
         <div>cd_nom : <span>{{taxon.cd_nom}}</span></div>
         <div>cd_ref : <span>{{taxon.cd_ref}}</span></div>
         <div>nom_vern : <span>{{taxon.taxref.nom_vern}}</span></div>
+        <a
+            class="btn btn-secondary"
+            href="https://inpn.mnhn.fr/espece/cd_nom/{{taxon.cd_ref}}" target="_blank">
+            Page INPN
+        </a>
     </div>
 
     <div *ngIf="nomVerns"  class="rounded p-3 mb-2 alert alert-dark">
-        <div class="col-md-12"><span>Usage: </span>{{nomVerns.commentaire_general}}</div>
+        <h4>Noms vernaculaires</h4>
+        <a href="form/{{taxon.id_nom}}" class="btn btn-primary">Editer</a>
+        <hr/>
+        <div class="col-md-12"><span>Commentaire général: </span>{{nomVerns.commentaire_general}}</div>
 
-        <div *ngFor="let nom of nomVerns.noms_occitan" class="col-md-12">
+        <div *ngFor="let nom of nomVerns.noms_occitan; let i = index" class="col-md-12">
             <hr/>
             <div class="border">
-                    <div class="border-bottom"><span class="col-md-3">nom_vernaculaire</span><span>{{nom.nom_vernaculaire}}</span></div>
-                    <div class="border-bottom"><span class="col-md-3">commentaire_nom</span><span>{{nom.commentaire_nom}}</span></div>
-                    <div class="border-bottom"><span class="col-md-3">localisations</span><span>{{nom.localisations}}</span></div>
-                    <div class="border-bottom"><span class="col-md-3">parties_utilisees</span><span>{{nom.parties_utilisees}}</span></div>
-                    <div class="border-bottom"><span class="col-md-3">usages</span><span>{{nom.usages}}</span></div>
-                    <div class="border-bottom"><span class="col-md-3">commentaire_usage</span><span>{{nom.commentaire_usage}}</span></div>
-                    <div class="border-bottom"><span class="col-md-3">id_source</span><span>{{nom.id_source}}</span></div>
-                    <div class="border-bottom"><span class="col-md-3">source_pages</span><span>{{nom.source_pages}}</span></div>
+                    <a data-toggle="collapse"
+                        data-target="#collapseDetailNomVern_{{i}}"
+                        href="#collapseDetailNomVern_{{i}}"
+                        aria-expanded="false"
+                    > ({{i + 1}}) {{nom.nom_vernaculaire}}
+                        <span class="expand_caret fa fa-caret-down"></span>
+                    </a>
+                    <div id="collapseDetailNomVern_{{i}}" class="collapse">
+                            <div class="border-bottom"><span class="col-md-3 span-label">Nom occitan</span><span>{{nom.nom_vernaculaire}}</span></div>
+                            <div class="border-bottom"><span class="col-md-3 span-label">Commentaire nom</span><span>{{nom.commentaire_nom}}</span></div>
+                            <div class="border-bottom"><span class="col-md-3 span-label">Localisations</span><span><app-display-foreignkey-array
+                                [valuesRef]="nomenclatureService.nomenclaturesValues['FO_LOCALISATION']"
+                                [valuesIds]="nom.localisations"
+                                keyLabel="label_default"
+                                keyValue="id_nomenclature"
+                                fieldLabel="Localisations"
+                            ></app-display-foreignkey-array></span></div>
+                            <div class="border-bottom"><span class="col-md-3 span-label">Parties utilisees</span><span><app-display-foreignkey-array
+                                [valuesRef]="nomenclatureService.nomenclaturesValues['FO_PARTIE_PLANTE']"
+                                [valuesIds]="nom.parties_utilisees"
+                                keyLabel="label_default"
+                                keyValue="id_nomenclature"
+                                fieldLabel="Localisations"
+                            ></app-display-foreignkey-array></span></div>
+                            <div class="border-bottom"><span class="col-md-3 span-label">Usages</span><span><app-display-foreignkey-array
+                                [valuesRef]="nomenclatureService.nomenclaturesValues['FO_USAGE']"
+                                [valuesIds]="nom.usages"
+                                keyLabel="label_default"
+                                keyValue="id_nomenclature"
+                                fieldLabel="Localisations"
+                            ></app-display-foreignkey-array></span></div>
+                            <div class="border-bottom"><span class="col-md-3 span-label">Commentaire usages</span><span>{{nom.commentaire_usage}}</span></div>
+                            <div class="border-bottom"><span class="col-md-3 span-label">Sources</span><span><app-display-foreignkey-array
+                                [valuesRef]="floraOccitaniaService.sources"
+                                [valuesIds]="nom.id_sources"
+                                keyLabel="citation"
+                                keyValue="id_source"
+                                fieldLabel="Localisations"
+                            ></app-display-foreignkey-array></span></div>
+                    </div>
+
             </div>
         </div>
     </div>
     <div class="rounded p-3 mb-2 alert alert-dark">
+        <h4>Photos</h4>
         <div class="row">
             <div *ngFor="let m of taxon.medias" class="col-md-3">
                 <img src="{{m.url}}" alt="{{m.titre}}" class="img-thumbnail rounded">
@@ -34,6 +76,7 @@
     </div>
 
     <div class="rounded p-3 mb-2 alert alert-dark">
+        <h4>Attributs</h4>
         <div *ngFor="let a of taxon.attributs">  {{a.label_attribut}} :  {{a.valeur_attribut}}</div>
     </div>
 </div>
