@@ -188,7 +188,7 @@ ALTER TABLE flora_occitania.t_nom_vernaculaires
 CREATE OR REPLACE VIEW flora_occitania.v_list_summary_taxon_to_fill AS
  WITH nom_occ AS (
          SELECT t_nom_vernaculaires.cd_ref,
-            count(*) AS count, string_agg(nom_vernaculaire, ',') as agg_noms_occ
+            count(*) AS count, string_agg(nom_vernaculaire, ', ') as agg_noms_occ
            FROM flora_occitania.t_nom_vernaculaires
           GROUP BY t_nom_vernaculaires.cd_ref
         )
