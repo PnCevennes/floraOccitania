@@ -2,6 +2,11 @@
 Sasie des noms vernaculaire en occitan et de données ethnobotanique
 
 
+### Captures
+
+<img src="docs/images/capture_dashboard.png" width="400">
+<img src="docs/images/capture_detail.png" width="400">
+<img src="docs/images/capture_saisie.png" width="400">
 
 ## Installation 
 ### Prerequis
