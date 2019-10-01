@@ -156,7 +156,7 @@ CREATE TABLE flora_occitania.t_nom_vernaculaires (
     usages int[],
     parties_utilisees int[],
     commentaire_usage varchar,
-    id_sources int[]
+    id_sources int[],
     meta_create_date timestamp without time zone DEFAULT now(),
     meta_update_date timestamp without time zone,
     CONSTRAINT fk_t_nom_vernaculaires_bib_noms FOREIGN KEY (cd_ref)
