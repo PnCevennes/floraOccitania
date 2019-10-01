@@ -48,7 +48,6 @@ class NomVern(db.Model):
     parties_utilisees = db.Column(ARRAY(db.Integer))
     commentaire_usage = db.Column(db.Unicode)
     id_sources = db.Column(ARRAY(db.Integer))
-    source_pages = db.Column(db.Unicode)
     meta_create_date = db.Column(db.DateTime)
     meta_update_date = db.Column(db.DateTime)
 
