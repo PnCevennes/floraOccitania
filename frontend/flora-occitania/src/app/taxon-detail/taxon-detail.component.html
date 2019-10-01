@@ -1,6 +1,12 @@
 
 <div *ngIf="taxon">
     <h3 [innerHTML]="taxon.taxref.nom_complet_html"></h3>
+
+    <div class="p-3 mb-2">
+        <a href="form/{{taxon.id_nom}}" class="btn btn-primary">Editer nom vern</a>
+    </div>
+
+
     <div class="rounded p-3 mb-2 alert alert-dark">
         <h4>Info taxon</h4>
         <div>cd_nom : <span>{{taxon.cd_nom}}</span></div>
@@ -15,7 +21,7 @@
 
     <div *ngIf="nomVerns"  class="rounded p-3 mb-2 alert alert-dark">
         <h4>Noms vernaculaires</h4>
-        <a href="form/{{taxon.id_nom}}" class="btn btn-primary">Editer</a>
+
         <hr/>
         <div class="col-md-12"><span>Commentaire général: </span>{{nomVerns.commentaire_general}}</div>
 
