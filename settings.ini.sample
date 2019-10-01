@@ -1,0 +1,42 @@
+
+app_name=flora_occitania
+
+####################################
+###config Python
+####################################
+venv_dir=venv
+#path vers python à n'utiliser que dans le cas de python3
+python_path=/usr/bin/python3
+
+####################################
+###config PostgreSQL
+####################################
+
+#host hébergeant la base de données
+db_host=localhost
+
+#port de la base de données
+db_port=5432
+
+#nom de la base de données de l'application
+db_name=geonature_prod
+
+#nom de l'utilisateur propriétaire de la base PostgreSQL
+user_pg=user
+
+#nom du superutilisateur PostgreSQL
+admin_pg=admin
+
+#user propriétaire de la base geonaturedb
+user_pg_pass=monpassachanger
+
+#superuser de la base geonaturedb
+admin_pg_pass=monpassachanger
+
+
+####################################
+###config Gunicorn
+####################################
+gun_num_workers=4
+gun_host=0.0.0.0
+gun_port=5000
