@@ -4,6 +4,10 @@ Sasie des noms vernaculaire en occitan et de données ethnobotanique
 
 
 ## Installation 
+### Prerequis
+* apache 
+* supervisorctl
+
 ### nodejs et angular
 ```
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
