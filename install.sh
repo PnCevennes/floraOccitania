@@ -46,8 +46,6 @@ fi
 
 npm install
 
-ng build --prod --base-href /flora_occitania
-
 
 #Lancement de l'application
 cd ${DIR}
