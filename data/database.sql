@@ -16,35 +16,35 @@ WITH d AS (
     SELECT *
     FROM (
         VALUES
-            ('FO_LOCALISATION', 'CG', 'Causses gorges'),
-            ('FO_LOCALISATION', 'ML', 'Mont Lozère'),
-            ('FO_LOCALISATION', 'AI', 'Aigoual'),
-            ('FO_LOCALISATION', 'CV', 'Cévennes'),
-            ('FO_LOCALISATION', 'PG', 'Piémont garrigues'),
-            ('FO_LOCALISATION', 'IND', 'Indéterminé'),
-            ('FO_USAGE', 'ALIMENTAIRE', 'Alimentaire'),
-            ('FO_USAGE', 'MEDICINAL', 'Médicinal'),
-            ('FO_USAGE', 'VETERINAIRE', 'Vétérinaire'),
-            ('FO_USAGE', 'ALI_ANIMAL', 'Alimentation animale'),
-            ('FO_USAGE', 'LUDIQUE', 'Ludique'),
-            ('FO_USAGE', 'ARTISANAL', 'Artisanal'),
-            ('FO_USAGE', 'CROYANCES', 'Croyances et religions'),
-            ('FO_USAGE', 'TRADITION', 'Tradition orale'),
-            ('FO_PARTIE_PLANTE', 'PLANTE_ENTIERE', 'Plante entière'),
-            ('FO_PARTIE_PLANTE', 'TIGE', 'Tige'),
-            ('FO_PARTIE_PLANTE', 'RAMEAUX', 'Rameaux'),
-            ('FO_PARTIE_PLANTE', 'FEUILLES', 'Feuilles'),
-            ('FO_PARTIE_PLANTE', 'FLEURS', 'Fleurs'),
-            ('FO_PARTIE_PLANTE', 'BOURGEONS', 'Bourgeons'),
-            ('FO_PARTIE_PLANTE', 'FRUITS', 'Fruits'),
-            ('FO_PARTIE_PLANTE', 'RACINES', 'Racines'),
-            ('FO_PARTIE_PLANTE', 'BULBES', 'Bulbes'),
-            ('FO_PARTIE_PLANTE', 'RHIZOMES', 'Rhizomes'),
-            ('FO_PARTIE_PLANTE', 'SPORANGES', 'Sporanges'),
-            ('FO_PARTIE_PLANTE', 'NON_PRECISE', 'Non précisé')
-    ) as t(type, code, label)
+            ('FO_LOCALISATION', 'CG', 'CG', 'Causses gorges'),
+            ('FO_LOCALISATION', 'ML', 'ML', 'Mont Lozère'),
+            ('FO_LOCALISATION', 'AI', 'AI', 'Aigoual'),
+            ('FO_LOCALISATION', 'CV', 'CV', 'Cévennes'),
+            ('FO_LOCALISATION', 'PG', 'PG', 'Piémont garrigues'),
+            ('FO_LOCALISATION', 'IND', 'IND', 'Indéterminé'),
+            ('FO_USAGE', '1', 'ALIMENTAIRE', 'Alimentaire'),
+            ('FO_USAGE', '2', 'MEDICINAL', 'Médicinal'),
+            ('FO_USAGE', '3', 'VETERINAIRE', 'Vétérinaire'),
+            ('FO_USAGE', '4', 'ALI_ANIMAL', 'Alimentation animale'),
+            ('FO_USAGE', '5', 'LUDIQUE', 'Ludique'),
+            ('FO_USAGE', '6', 'ARTISANAL', 'Artisanal et domestique'),
+            ('FO_USAGE', '7', 'CROYANCES', 'Croyances et religions'),
+            ('FO_USAGE', '8', 'TRADITION', 'Tradition orale'),
+            ('FO_PARTIE_PLANTE', '1', 'PLANTE_ENTIERE', 'Plante entière'),
+            ('FO_PARTIE_PLANTE', '2', 'TIGE', 'Tige'),
+            ('FO_PARTIE_PLANTE', '3', 'RAMEAUX', 'Rameaux'),
+            ('FO_PARTIE_PLANTE', '4', 'FEUILLES', 'Feuilles'),
+            ('FO_PARTIE_PLANTE', '5', 'FLEURS', 'Fleurs'),
+            ('FO_PARTIE_PLANTE', '6', 'BOURGEONS', 'Bourgeons'),
+            ('FO_PARTIE_PLANTE', '7', 'FRUITS', 'Fruits'),
+            ('FO_PARTIE_PLANTE', '8', 'RACINES', 'Racines'),
+            ('FO_PARTIE_PLANTE', '9', 'BULBES', 'Bulbes'),
+            ('FO_PARTIE_PLANTE', '10', 'RHIZOMES', 'Rhizomes'),
+            ('FO_PARTIE_PLANTE', '11', 'SPORANGES', 'Sporanges'),
+            ('FO_PARTIE_PLANTE', '12', 'NON_PRECISE', 'Non précisé')
+    ) as t(type, code, mnemonique, label)
 ), a AS (
-    SELECT b.id_type, d.code as cd_nomenclature, d.label as mnemonique, d.label as label_fr, d.label as label_default ,
+    SELECT b.id_type, d.code as cd_nomenclature, d.mnemonique as mnemonique, d.label as label_fr, d.label as label_default ,
     'PNC' AS source, 'Validé' as statut, 0 as id_broader,
     b.id_type || '.' || lpad((row_number() OVER(PARTITION BY id_type))::varchar, 3, '0') as hierarchy,
     true as active
@@ -216,12 +216,25 @@ CREATE OR REPLACE VIEW flora_occitania.v_list_summary_taxon_to_fill AS
 --              Données flore occitan
 --- ##############################################################################################
 --- ##############################################################################################
-INSERT INTO flora_occitania.t_sources( citation, auteurs, titre, isbn)
+
+
+INSERT INTO flora_occitania.t_sources(id_source,  auteurs, titre, citation)
 VALUES
-  ('Vaissiera (Claudi), Botanica Occitana', 'Vaissiera (Claudi)', 'Botanica Occitana', NULL),
-  ('Renaux (Alain), Le Savoir en herbe', 'Renaux (Alain)', 'Le Savoir en herbe', NULL),
-  ('Wienin (Michel), Base de données FLORA- petite flore occitane des Garrigues et des Cévennes', 'Wienin (Michel)', 'petite flore occitane des Garrigues et des Cévennes', NULL),
-  ('Rodrigues Dos Santos (José), Savoirs de la nature, nature des savoirs', 'Rodrigues Dos Santos', 'Savoirs de la nature, nature des savoirs', NULL),
-  ('Ecologistes de l’Euzière : Les salades sauvages', 'Ecologistes de l’Euzière', 'Les salades sauvages', NULL),
-  ('Revue Cévennes 38-39, le Jardin des plantes', 'Parc national des Cévennes', 'le Jardin des plantes', NULL)
+(1,'Alibert Louis', 'Dictionnaire occitan-français', 'Alibert Louis, Dictionnaire occitan-français, Toulouse, IEO,1966 – 1976.665 p.'),
+(2,'Boissier de Sauvages Pierre-Augustin', 'Dictionnaire languedocien-français', 'Boissier de Sauvages Pierre-Augustin, Dictionnaire languedocien-français, Alais, 1820. T1, 389 p.'),
+(3,'D''Hombres (Maximin) et Charvet (Gratien)', 'Dictionnaire languedocien-français', 'D''Hombres (Maximin) et Charvet (Gratien), Dictionnaire languedocien-français,Alais, 1870. T1, 313 p'),
+(4,'Mistral Frédéric', 'Le Trésor du Félibrige', 'Mistral Frédéric, Le Trésor du Félibrige, Raphèle les Arles,1886. T1, 1196 p. T2, 1163.'),
+(5,'Boucoiran (Louis)', 'Dictionnaire analogique et étymologique des idiomes méridionaux - Comprenant tous les termes vulgaires de la Flore et de la faune méridionale', 'Boucoiran (Louis), Dictionnaire analogique et étymologique des idiomes méridionaux - Comprenant tous les termes vulgaires de la Flore et de la faune méridionale,  T1, 432 p.'),
+(6,'Brisebarre (Anne Marie)', '« les plantes en suspension dans les bergeries cévenoles : efficacité symbolique ou phytothérapeutique ? »', 'Brisebarre (Anne Marie), « les plantes en suspension dans les bergeries cévenoles : efficacité symbolique ou phytothérapeutique ? » in : Plantes, sociétés, savoirs, symboles. Actes du séminaire d''ethnobotanique de Salagon, vol.3, années 2003-2004. p 127- 136.'),
+(7,'Durand-Tullou (Adrienne)', '« Rôle des végétaux dans le mode de vie traditionnel »', 'Durand-Tullou (Adrienne), « Rôle des végétaux dans le mode de vie traditionnel » in : L'' Encyclopédie des Cévennes, l''almanach Cévenol, n°8. '),
+(8,'Ecologistes de l’Euzière', 'Les salades sauvages', 'Ecologistes de l’Euzière, Les salades sauvages, l''ensalada champanèla. Nîmes, Editions Ecologistes de l''Euzière, 2011. 176 p.'),
+(9,'Laurence Pierre', 'Du paysage et des temps, la mémoire orale en Cévennes Vallée française et pays de Calberte. Parc national des Cévennes', 'Laurence Pierre, Du paysage et des temps, la mémoire orale en Cévennes Vallée française et pays de Calberte. Parc national des Cévennes, 2004. T1431 p , T2 860p.'),
+(10,'Le Jardin des plantes', 'Revue du Parc national des Cévennes n°38-39', 'Le Jardin des plantes, Revue du Parc national des Cévennes n°38-39, 1988.'),
+(11,'Renaux (Alain)', 'Le Savoir en herbe. Montpellier : Presse du Languedoc', 'Renaux (Alain), Le Savoir en herbe. Montpellier : Presse du Languedoc,1998. 426 p.'),
+(12,'Seignolles Claude', 'Le folklore du Languedoc -Gard', 'Seignolles Claude, Le folklore du Languedoc -Gard, Hérault, Lozère- . Paris : Maisonneuve et Larose, 1977. 302 p.'),
+(13,'Rodrigues Dos Santos (José)', 'Savoirs de la nature, nature des savoirs : les savoirs de la flore en Cévennes.', 'Rodrigues Dos Santos (José), Savoirs de la nature, nature des savoirs : les savoirs de la flore en Cévennes. Paris, ANRT,1995. 698 p.'),
+(14,'Vaissiera (Claudi)', 'Botanica Occitana', 'Vaissiera (Claudi), Botanica Occitana. Béziers : Institut d’estudis occitans, 1989. T1,166 p, T2, 241 p.'),
+(15,'Wienin Michel', 'petite flore occitane des Garrigues et des Cévennes', 'Wienin Michel, petite flore occitane des Garrigues et des Cévennes. (notice 18 p).')
 ;
+
+
