@@ -26,6 +26,7 @@
     "datatables.net-dt": "^1.10.19",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
+    "lodash": "^4.17.15",
     "popper": "^1.0.1",
     "popper.js": "^1.15.0",
     "rxjs": "~6.4.0",

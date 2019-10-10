@@ -47,7 +47,7 @@
                       <form-multiselect
                           [values]="nomenclatureService.nomenclaturesValues['FO_LOCALISATION']"
                           [parentFormControl]="nomVern.controls.localisations"
-                          keyLabel="label_default"
+                          [keyLabel]="['label_default']"
                           keyValue="id_nomenclature"
                           fieldLabel="Localisations"
                           debounceTime="500"
@@ -56,7 +56,7 @@
                       <form-multiselect
                           [values]="nomenclatureService.nomenclaturesValues['FO_PARTIE_PLANTE']"
                           [parentFormControl]="nomVern.controls.parties_utilisees"
-                          keyLabel="label_default"
+                          [keyLabel]="['label_default']"
                           keyValue="id_nomenclature"
                           fieldLabel="Parties utilisées"
                           debounceTime="500"
@@ -65,7 +65,7 @@
                       <form-multiselect
                           [values]="nomenclatureService.nomenclaturesValues['FO_USAGE']"
                           [parentFormControl]="nomVern.controls.usages"
-                          keyLabel="label_default"
+                          [keyLabel]="['cd_nomenclature', 'label_default']"
                           keyValue="id_nomenclature"
                           fieldLabel="Usages"
                           debounceTime="500"
@@ -85,7 +85,7 @@
                       <form-multiselect
                           [values]="floraOccitaniaService.sources"
                           [parentFormControl]="nomVern.controls.id_sources"
-                          keyLabel="citation"
+                          [keyLabel]="['id_source', 'citation']"
                           keyValue="id_source"
                           fieldLabel="Sources"
                           debounceTime="500"
@@ -96,6 +96,9 @@
                   <button style="margin-left:35px;" type="button" class="btn btn-danger"
                       (click)="deleteNomVern(i)"
                   > Supprimer </button>
+                  <button style="margin-left:35px;" type="button" class="btn btn-warning"
+                      (click)="duplicateNomVern(i)"
+                  > Dupliquer </button>
                 </div>
               </fieldset>
             </div>

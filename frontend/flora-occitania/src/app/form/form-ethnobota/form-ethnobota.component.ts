@@ -8,7 +8,7 @@ import { Location } from '@angular/common';
 import {FloraOccitaniaService, TaxonList} from "../../services/flora-occitania.service";
 import {NomenclatureService} from "../../services/nomenclature.service";
 import {TaxhubService} from "../../services/taxhub.service";
-
+import * as _ from "lodash";
 
 @Component({
   selector: 'app-form-ethnobota',
@@ -61,7 +61,7 @@ export class FormEthnobotaComponent implements OnInit {
     )
   }
 
-  getNewNomVern(): FormGroup{
+  getNewNomVern(): FormGroup {
     return this.formBuilder.group({
       nom_vernaculaire: ['', Validators.required],
       commentaire_nom: [''],
@@ -88,6 +88,14 @@ export class FormEthnobotaComponent implements OnInit {
   deleteNomVern(index): void {
     let control = <FormArray>this.nomVernForm.controls.nomVerns;
     control.removeAt(index)
+  }
+
+  duplicateNomVern(index): void {
+    let control = <FormArray>this.nomVernForm.controls.nomVerns;
+    let toClone = _.cloneDeep(control.at(index));
+    toClone.controls.nom_vernaculaire.setValue(undefined);
+    toClone.controls.commentaire_nom.setValue(undefined);
+    control.push(toClone);
   }
 
   submit(): void {

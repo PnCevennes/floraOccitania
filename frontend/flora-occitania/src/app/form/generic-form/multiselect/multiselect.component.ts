@@ -17,7 +17,7 @@ export class MultiselectComponent implements OnInit {
   /**
    * Clé du dictionnaire de valeur que le composant doit prendre pour l'affichage de la liste déroulante
    */
-  @Input() keyLabel: string;
+  @Input() keyLabel: Array<string>;
   /** Clé du dictionnaire que le composant doit passer au formControl */
   @Input() keyValue: string;
   /**              Est-ce que le composant doit afficher l'item "tous" dans les options du select ?  */
@@ -47,6 +47,14 @@ export class MultiselectComponent implements OnInit {
     this.searchBar = this.searchBar || false;
     this.displayAll = this.displayAll || false;
 
+
+    this.values.forEach((value, i, array)  => {
+      const displayValue = Object.keys(value).map( key => {
+        if (this.keyLabel.includes(key)) return value[key];
+      }).filter(v => {if(v) return v});
+
+      this.values[i]['displayValue'] = displayValue.join('-')
+    })
 
     if (this.values && this.parentFormControl.value) {
       this.values.forEach(value => {
@@ -78,7 +86,7 @@ export class MultiselectComponent implements OnInit {
   addItem(item) {
     // remove element from the items list to avoid doublon
     this.values = this.values.filter(curItem => {
-      return curItem[this.keyLabel] !== item[this.keyLabel];
+      return curItem['displayValue'] !== item['displayValue'];
     });
 
     // set the item for the formControl
@@ -96,7 +104,7 @@ export class MultiselectComponent implements OnInit {
   removeItem($event, item) {
     // remove element from the items list to avoid doublon
     this.values = this.values.filter(curItem => {
-      return curItem[this.keyLabel] !== item[this.keyLabel];
+      return curItem['displayValue'] !== item['displayValue'];
     });
     // disable event propagation
     $event.stopPropagation();
@@ -104,7 +112,7 @@ export class MultiselectComponent implements OnInit {
     this.values.push(item);
 
     this.selectedItems = this.selectedItems.filter(curItem => {
-      return curItem[this.keyLabel] !== item[this.keyLabel];
+      return curItem['displayValue'] !== item['displayValue'];
     });
 
     this.formControlValue = this.formControlValue.filter(el => {
