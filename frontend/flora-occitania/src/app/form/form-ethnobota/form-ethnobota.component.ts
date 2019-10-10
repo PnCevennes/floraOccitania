@@ -93,8 +93,9 @@ export class FormEthnobotaComponent implements OnInit {
   duplicateNomVern(index): void {
     let control = <FormArray>this.nomVernForm.controls.nomVerns;
     let toClone = _.cloneDeep(control.at(index));
-    toClone.controls.nom_vernaculaire.setValue(undefined);
-    toClone.controls.commentaire_nom.setValue(undefined);
+    // TODO problème de clone
+    // toClone.controls.nom_vernaculaire.setValue(undefined);
+    // toClone.controls.commentaire_nom.setValue(undefined);
     control.push(toClone);
   }
 
