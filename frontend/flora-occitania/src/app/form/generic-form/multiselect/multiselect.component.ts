@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import {debounceTime, distinctUntilChanged} from "rxjs/operators";
+
 @Component({
   selector: 'form-multiselect',
   templateUrl: './multiselect.component.html',
@@ -12,8 +12,8 @@ export class MultiselectComponent implements OnInit {
   public formControlValue = [];
   public savedValues = [];
   @Input() parentFormControl: FormControl;
-  //** Valeurs à afficher dans la liste déroulante. Doit être un tableau de dictionnaire */
-  @Input() values:Array<any>;
+  // ** Valeurs à afficher dans la liste déroulante. Doit être un tableau de dictionnaire */
+  @Input() values: Array<any>;
   /**
    * Clé du dictionnaire de valeur que le composant doit prendre pour l'affichage de la liste déroulante
    */
@@ -32,9 +32,11 @@ export class MultiselectComponent implements OnInit {
   // time before the output are triggered
   @Input() debounceTime: number;
 
+
   @Output() onSearch = new EventEmitter();
   @Output() onChange = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();
+
 
   constructor() {}
 
@@ -71,9 +73,11 @@ export class MultiselectComponent implements OnInit {
       this.values.forEach(value => {
         if (this.parentFormControl.value.indexOf(value[this.keyValue]) !== -1) {
           this.selectedItems.push(value);
+          this.formControlValue.push(value[this.keyValue]);
         }
       });
     }
+
     // remove doublon in the dropdown lists
     this.removeDoublon();
 

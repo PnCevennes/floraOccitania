@@ -41,21 +41,21 @@
                             <div class="border-bottom"><span class="col-md-3 span-label">Localisations</span><span><app-display-foreignkey-array
                                 [valuesRef]="nomenclatureService.nomenclaturesValues['FO_LOCALISATION']"
                                 [valuesIds]="nom.localisations"
-                                keyLabel="label_default"
+                                [keyLabel]="['label_default']"
                                 keyValue="id_nomenclature"
                                 fieldLabel="Localisations"
                             ></app-display-foreignkey-array></span></div>
                             <div class="border-bottom"><span class="col-md-3 span-label">Parties utilisees</span><span><app-display-foreignkey-array
                                 [valuesRef]="nomenclatureService.nomenclaturesValues['FO_PARTIE_PLANTE']"
                                 [valuesIds]="nom.parties_utilisees"
-                                keyLabel="label_default"
+                                [keyLabel]="['label_default']"
                                 keyValue="id_nomenclature"
                                 fieldLabel="Localisations"
                             ></app-display-foreignkey-array></span></div>
                             <div class="border-bottom"><span class="col-md-3 span-label">Usages</span><span><app-display-foreignkey-array
                                 [valuesRef]="nomenclatureService.nomenclaturesValues['FO_USAGE']"
                                 [valuesIds]="nom.usages"
-                                keyLabel="label_default"
+                                [keyLabel]="['cd_nomenclature', 'label_default']"
                                 keyValue="id_nomenclature"
                                 fieldLabel="Localisations"
                             ></app-display-foreignkey-array></span></div>
@@ -63,7 +63,7 @@
                             <div class="border-bottom"><span class="col-md-3 span-label">Sources</span><span><app-display-foreignkey-array
                                 [valuesRef]="floraOccitaniaService.sources"
                                 [valuesIds]="nom.id_sources"
-                                keyLabel="citation"
+                                [keyLabel]="['id_source', 'citation']"
                                 keyValue="id_source"
                                 fieldLabel="Localisations"
                             ></app-display-foreignkey-array></span></div>
