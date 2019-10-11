@@ -52,7 +52,7 @@ export class FormEthnobotaComponent implements OnInit {
         this.nomVernForm.controls.commentaire_general.setValue(
           this.taxon.commentaire_general
         );
-        if ('noms_occitan' in this.taxon){
+        if ('noms_occitan' in this.taxon) {
           this.taxon.noms_occitan.forEach(x => {
             const ctl = this.getNewNomVern();
             ctl.patchValue(x);
@@ -110,7 +110,7 @@ export class FormEthnobotaComponent implements OnInit {
     const toClone = control.at(index) as FormGroup;
     let newNomVern = this.getNewNomVern();
 
-    let values = {};
+    const values = {};
 
     Object.keys(toClone.controls).forEach(key => {
       if ( ! this.excludeValues.includes(key) ) {

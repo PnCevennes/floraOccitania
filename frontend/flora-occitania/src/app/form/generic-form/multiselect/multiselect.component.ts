@@ -49,12 +49,23 @@ export class MultiselectComponent implements OnInit {
 
 
     this.values.forEach((value, i, array)  => {
-      const displayValue = Object.keys(value).map( key => {
-        if (this.keyLabel.includes(key)) return value[key];
-      }).filter(v => {if(v) return v});
+      const displayValue = [];
+      Object.keys(value).map( key => {
+        if (this.keyLabel.includes(key)) {
+          displayValue[this.keyLabel.indexOf(key)] = value[key];
+        }
+      });
+      displayValue.filter(v => {if (v) { return v; }});
 
       this.values[i]['displayValue'] = displayValue.join('-');
-    })
+    });
+
+
+    // sort by value
+    // TODO enable customisation by user
+    this.values.sort((a, b) => {
+      return a.displayValue.localeCompare(b.displayValue);
+    });
 
     if (this.values && this.parentFormControl.value) {
       this.values.forEach(value => {

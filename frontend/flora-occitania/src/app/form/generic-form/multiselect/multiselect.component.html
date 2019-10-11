@@ -5,7 +5,8 @@
     aria-expanded="true"
     style="white-space: normal;"
     id="button-input">
-    <span *ngFor="let item of selectedItems" class="filter-option input-value pull-left"> {{item['displayValue']}}
+    <span *ngFor="let item of selectedItems"
+    class="filter-option input-value pull-left"> {{item['displayValue']}}
       <div (click)="removeItem($event, item)" class="fa fa-times clickable remove-button"> </div>
     </span>
 
