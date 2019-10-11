@@ -53,7 +53,7 @@ export class MultiselectComponent implements OnInit {
         if (this.keyLabel.includes(key)) return value[key];
       }).filter(v => {if(v) return v});
 
-      this.values[i]['displayValue'] = displayValue.join('-')
+      this.values[i]['displayValue'] = displayValue.join('-');
     })
 
     if (this.values && this.parentFormControl.value) {

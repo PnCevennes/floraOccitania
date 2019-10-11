@@ -22,13 +22,13 @@ export class TaxonList {
   providedIn: 'root'
 })
 export class FloraOccitaniaService {
-  sources:any;
+  sources: any;
   // Http Options
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })
-  }
+  };
 
   constructor(
     private _http: HttpClient
@@ -39,7 +39,7 @@ export class FloraOccitaniaService {
   }
 
   getSources(): Observable<any> {
-    return this._http.get<any>(AppSettings.API_ENDPOINT + "sources");
+    return this._http.get<any>(AppSettings.API_ENDPOINT + 'sources');
   }
 
   getTaxonDetail(id): Observable<any> {
@@ -49,11 +49,10 @@ export class FloraOccitaniaService {
 
   postNomVern(cd_ref, data): Observable<any> {
     const url =  `${AppSettings.API_ENDPOINT}${cd_ref}`;
-    console.log(url);
     return this._http.post<any>(
       url,
       {params: data}
-    )
+    );
   }
 
   initSources(): Observable<any> {

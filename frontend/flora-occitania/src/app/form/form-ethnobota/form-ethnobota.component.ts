@@ -1,14 +1,13 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators, AbstractControl} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators, AbstractControl} from '@angular/forms';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
-import {FloraOccitaniaService, TaxonList} from "../../services/flora-occitania.service";
-import {NomenclatureService} from "../../services/nomenclature.service";
-import {TaxhubService} from "../../services/taxhub.service";
-import * as _ from "lodash";
+import {FloraOccitaniaService, TaxonList} from '../../services/flora-occitania.service';
+import {NomenclatureService} from '../../services/nomenclature.service';
+import {TaxhubService} from '../../services/taxhub.service';
 
 @Component({
   selector: 'app-form-ethnobota',
@@ -19,7 +18,8 @@ export class FormEthnobotaComponent implements OnInit {
 
   taxon: any;
   sources: Array<any>;
-
+  // Nom des popriétés à exclure lors de la duplucation de formulaire
+  excludeValues: Array<string> = ['nom_vernaculaire', 'commentaire_nom'];
   nomVernForm = this.formBuilder.group({
     commentaire_general: [''],
     nomVerns: this.formBuilder.array([])
@@ -37,28 +37,30 @@ export class FormEthnobotaComponent implements OnInit {
 
   ngOnInit() {
     this.getTaxon();
-    console.log(this.floraOccitaniaService.sources);
   }
 
+  getNomVernForm(): FormArray {
+    return  this.nomVernForm.controls.nomVerns as FormArray;
+  }
 
   getTaxon(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.floraOccitaniaService.getTaxonDetail(id).subscribe(
       data => {
         this.taxon = data.items[0];
-        const control = <FormArray> this.nomVernForm.controls.nomVerns;
+        const control = this.getNomVernForm();
         this.nomVernForm.controls.commentaire_general.setValue(
-          this.taxon["commentaire_general"]
+          this.taxon.commentaire_general
         );
         if ('noms_occitan' in this.taxon){
-          this.taxon["noms_occitan"].forEach(x => {
+          this.taxon.noms_occitan.forEach(x => {
             const ctl = this.getNewNomVern();
             ctl.patchValue(x);
             control.push(ctl);
           });
         }
       }
-    )
+    );
   }
 
   getNewNomVern(): FormGroup {
@@ -74,29 +76,53 @@ export class FormEthnobotaComponent implements OnInit {
     });
   }
 
-  addNewNomVern():void{
+  addNewNomVern(): void {
     if (this.taxon) {
-      let control = <FormArray>this.nomVernForm.controls.nomVerns;
+      const control = this.getNomVernForm();
       let newNomVern = this.getNewNomVern();
-      newNomVern.controls.cd_ref.setValue(this.taxon.cd_ref);
+      newNomVern = this.populateNomVernForm(
+        newNomVern,
+        {cd_ref: this.taxon.cd_ref}
+      );
       control.push(newNomVern);
     } else {
-      console.log("Taxon non connu");
+      console.log('Taxon non connu');
     }
   }
 
+  populateNomVernForm(form: FormGroup, values: {}): FormGroup {
+    Object.entries(values).forEach(
+      ([key, val]) => {
+        form.controls[key].setValue(val);
+      }
+    );
+    return form;
+  }
+
   deleteNomVern(index): void {
-    let control = <FormArray>this.nomVernForm.controls.nomVerns;
-    control.removeAt(index)
+    const control = this.getNomVernForm();
+    control.removeAt(index);
   }
 
   duplicateNomVern(index): void {
-    let control = <FormArray>this.nomVernForm.controls.nomVerns;
-    let toClone = _.cloneDeep(control.at(index));
-    // TODO problème de clone
-    // toClone.controls.nom_vernaculaire.setValue(undefined);
-    // toClone.controls.commentaire_nom.setValue(undefined);
-    control.push(toClone);
+    const control = this.getNomVernForm();
+
+    const toClone = control.at(index) as FormGroup;
+    let newNomVern = this.getNewNomVern();
+
+    let values = {};
+
+    Object.keys(toClone.controls).forEach(key => {
+      if ( ! this.excludeValues.includes(key) ) {
+        values[key] = toClone.controls[key].value;
+      }
+    });
+
+    newNomVern = this.populateNomVernForm(
+      newNomVern,
+      values
+    );
+    control.push(newNomVern);
   }
 
   submit(): void {
@@ -107,7 +133,6 @@ export class FormEthnobotaComponent implements OnInit {
      ).subscribe(
        data => {
           this.router.navigate([`/detail/${this.taxon.id_nom}`]);
-          console.log(data);
        }
      );
   }
