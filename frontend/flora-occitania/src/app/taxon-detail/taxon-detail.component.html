@@ -59,7 +59,7 @@
                                 keyValue="id_nomenclature"
                                 fieldLabel="Localisations"
                             ></app-display-foreignkey-array></span></div>
-                            <div class="border-bottom"><span class="col-md-3 span-label">Commentaire usages</span><span>{{nom.commentaire_usage}}</span></div>
+                            <div class="border-bottom"><span class="col-md-3 span-label">Commentaire usages</span><span style=" white-space: pre-wrap;">{{nom.commentaire_usage}}</span></div>
                             <div class="border-bottom"><span class="col-md-3 span-label">Sources</span><span><app-display-foreignkey-array
                                 [valuesRef]="floraOccitaniaService.sources"
                                 [valuesIds]="nom.id_sources"
