@@ -74,25 +74,25 @@ def post_taxon_nomVern(cd_ref):
     # Insertion du commentaire général dans taxhub
 
     if 'commentaire_general' in data['params']:
+
         cmt = data['params']['commentaire_general']
-        try:
-            taxhub_attr = db.session.query(
-                CorTaxonAttribut
-            ).filter_by(
-                cd_ref=cd_ref,
-                id_attribut=current_app.config['ID_ATTR_TAXHUB']
-            ).one()
-        except NoResultFound:
-            taxhub_attr = CorTaxonAttribut(
-                cd_ref=cd_ref,
-                id_attribut=current_app.config['ID_ATTR_TAXHUB']
-            )
-        taxhub_attr.valeur_attribut = cmt
+        if cmt:
+            try:
+                taxhub_attr = db.session.query(
+                    CorTaxonAttribut
+                ).filter_by(
+                    cd_ref=cd_ref,
+                    id_attribut=current_app.config['ID_ATTR_TAXHUB']
+                ).one()
+            except NoResultFound:
+                taxhub_attr = CorTaxonAttribut(
+                    cd_ref=cd_ref,
+                    id_attribut=current_app.config['ID_ATTR_TAXHUB']
+                )
+            taxhub_attr.valeur_attribut = cmt
 
-        print(taxhub_attr.valeur_attribut)
-
-        db.session.add(taxhub_attr)
-        db.session.commit()
+            db.session.add(taxhub_attr)
+            db.session.commit()
 
     #  ##########################
     #  Insertion des noms vernaculaires
