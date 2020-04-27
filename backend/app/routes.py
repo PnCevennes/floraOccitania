@@ -5,6 +5,8 @@
 from flask import Blueprint, request, current_app
 from sqlalchemy.orm.exc import NoResultFound
 
+from pypnusershub.routes import check_auth
+
 from .models import (
     NomVern, ListTaxon, Sources, CorTaxonAttribut
 )
@@ -63,7 +65,8 @@ def get_taxon_list(id=None):
 
 
 @adresses.route('/<int:cd_ref>', methods=['POST'])
-def post_taxon_nomVern(cd_ref):
+@check_auth(1, True)
+def post_taxon_nomVern(cd_ref, id_role):
     """
         Sauvegarde un nom vernaculaire
     """

@@ -6,7 +6,7 @@ import { Location } from '@angular/common';
 import {FloraOccitaniaService, TaxonList} from "../services/flora-occitania.service"
 import {TaxhubService} from "../services/taxhub.service"
 import { NomenclatureService } from '../services/nomenclature.service';
-
+import { AuthenticationService, User } from '../services/authentication.service';
 
 @Component({
   selector: 'app-taxon-detail',
@@ -18,14 +18,18 @@ export class TaxonDetailComponent implements OnInit {
   taxon: any;
   nomVerns: any;
   nomenclatureValue: any;
+  currentUser: User;
 
   constructor(
     public floraOccitaniaService: FloraOccitaniaService,
     public taxhubService: TaxhubService,
     private route: ActivatedRoute,
     public nomenclatureService: NomenclatureService,
-    private location: Location
-  ) { }
+    private location: Location,
+    private authenticationService: AuthenticationService
+  ) {
+      this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+  }
 
   ngOnInit() {
     this.getTaxon();

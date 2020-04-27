@@ -28,6 +28,9 @@ def init_app():
         db.app = app
         app.config['DB'] = db
 
+        from pypnusershub.routes import routes
+        app.register_blueprint(routes, url_prefix="/auth")
+
         from pypnnomenclature.routes import routes
         app.register_blueprint(routes, url_prefix="/nomenclatures")
 
@@ -40,4 +43,4 @@ def init_app():
 app = init_app()
 CORS(app, supports_credentials=True)
 if __name__ == '__main__':
-    app.run()
+    app.run(port=1234)

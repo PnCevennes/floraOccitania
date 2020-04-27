@@ -1,10 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule , APP_INITIALIZER } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  HttpClient, HttpRequest, HttpHandler, HttpEvent , HttpClientModule , HttpInterceptor,  HTTP_INTERCEPTORS
+} from '@angular/common/http';
+
+import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
 
 import { forkJoin } from 'rxjs';
 import { DataTablesModule } from 'angular-datatables';
+
+import { CookieService } from 'ng2-cookies';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +24,7 @@ import { MultiselectComponent } from './form/generic-form/multiselect/multiselec
 import {NomenclatureService} from './services/nomenclature.service';
 import {FloraOccitaniaService} from './services/flora-occitania.service';
 import { DisplayForeignkeyArrayComponent } from './taxon-detail/display-foreignkey-array/display-foreignkey-array.component';
+import { LoginComponent } from './login/login.component';
 
 export function initApp(
   nomeclatureService: NomenclatureService,
@@ -32,6 +40,17 @@ export function initApp(
       });
   };
 }
+@Injectable()
+export class AddCredentialsInterceptor implements HttpInterceptor {
+  constructor() {}
+
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    request = request.clone({
+        withCredentials: true
+    });
+    return next.handle(request);
+  }
+}
 
 
 @NgModule({
@@ -41,7 +60,8 @@ export function initApp(
     TaxonDetailComponent,
     FormEthnobotaComponent,
     MultiselectComponent,
-    DisplayForeignkeyArrayComponent
+    DisplayForeignkeyArrayComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -52,12 +72,18 @@ export function initApp(
     DataTablesModule
   ],
   providers: [
+
+    CookieService,
     {
       provide: APP_INITIALIZER,
       useFactory: initApp,
       multi: true,
       deps: [NomenclatureService, FloraOccitaniaService]
-    }
+    }, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AddCredentialsInterceptor,
+      multi: true,
+      }
   ],
   bootstrap: [AppComponent]
 })

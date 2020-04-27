@@ -8,6 +8,12 @@
       <a class="nav-item nav-link active" routerLink="/dashboard">Dashboard <span class="sr-only">(current)</span></a>
     </div>
   </div>
+  <div class="collapse navbar-collapse" id="navbar-login">
+    <div class="navbar-nav">
+      <a *ngIf="currentUser" class="nav-item nav-link" (click)="logout()">{{currentUser.identifiant}} - Logout</a>
+      <a *ngIf="!currentUser" class="nav-item nav-link" routerLink="/login">Login</a>
+    </div>
+  </div>
 </nav>
 <div class="container">
   <router-outlet></router-outlet>

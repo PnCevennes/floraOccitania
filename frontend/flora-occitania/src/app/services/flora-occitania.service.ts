@@ -27,7 +27,7 @@ export class FloraOccitaniaService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
-    })
+    }), withCredentials: true
   };
 
   constructor(
@@ -51,7 +51,7 @@ export class FloraOccitaniaService {
     const url =  `${AppSettings.API_ENDPOINT}${cd_ref}`;
     return this._http.post<any>(
       url,
-      {params: data}
+      {params: data, options: this.httpOptions}
     );
   }
 
