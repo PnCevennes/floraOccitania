@@ -6,6 +6,13 @@ echo "Arret de l'application..."
 sudo -s supervisorctl stop ${app_name}
 
 
+
+# make nvm available
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
 #Création des répertoires systèmes
 mkdir -p var/log
 
@@ -23,7 +30,7 @@ sed -i "s/SQLALCHEMY_DATABASE_URI = .*$/SQLALCHEMY_DATABASE_URI = \"postgresql:\
 
 
 rm -r venv
-virtualenv -p /usr/bin/python3 venv
+python3 -m virtualenv venv
 
 source venv/bin/activate
 pip install --upgrade pip
@@ -35,7 +42,14 @@ cd ..
 
 
 # Front end
-cd frontend/flora-occitania/
+cd frontend 
+
+nvm install
+nvm use
+
+
+cd flora-occitania/
+
 #création d'un fichier de configuration
 if [ ! -f src/app/appSettings.ts ]; then
   echo 'Fichier de configuration non existant'
