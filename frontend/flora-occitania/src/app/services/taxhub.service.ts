@@ -35,7 +35,7 @@ export class TaxhubService {
   }
 
   getTaxonDetail(id_nom: number): Observable<any> {
-    const url = `${AppSettings.TAXHUB_ENDPOINT}bibnoms/${id_nom}`;
+    const url = `${AppSettings.TAXHUB_ENDPOINT}taxref/${id_nom}`;
     return this._http.get<any>(url);
   }
 }

@@ -1,9 +1,9 @@
 
 <div *ngIf="taxon">
-    <h3 [innerHTML]="taxon.taxref.nom_complet_html"></h3>
+    <h3 [innerHTML]="taxon.nom_complet_html"></h3>
 
     <div class="p-3 mb-2" *ngIf="currentUser">
-        <a href="form/{{taxon.id_nom}}" class="btn btn-primary">Editer nom vern</a>
+        <a href="form/{{taxon.cd_nom}}" class="btn btn-primary">Editer nom vern</a>
     </div>
 
 
@@ -11,7 +11,7 @@
         <h4>Info taxon</h4>
         <div>cd_nom : <span>{{taxon.cd_nom}}</span></div>
         <div>cd_ref : <span>{{taxon.cd_ref}}</span></div>
-        <div>nom_vern : <span>{{taxon.taxref.nom_vern}}</span></div>
+        <div>nom_vern : <span>{{taxon.nom_vern}}</span></div>
         <a
             class="btn btn-secondary"
             href="https://inpn.mnhn.fr/espece/cd_nom/{{taxon.cd_ref}}" target="_blank">
