@@ -30,7 +30,7 @@ sed -i "s/SQLALCHEMY_DATABASE_URI = .*$/SQLALCHEMY_DATABASE_URI = \"postgresql:\
 
 
 rm -r venv
-python3 -m virtualenv venv
+python3 -m venv venv
 
 source venv/bin/activate
 pip install --upgrade pip
