@@ -12,7 +12,7 @@ from app.utils import serializable
 @serializable
 class CorTaxonAttribut(db.Model):
     __tablename__ = "cor_taxon_attribut"
-    __table_args__ = {"schema": "taxonomie"}
+    __table_args__ = {"schema": "taxonomie", "extend_existing": True}
     id_attribut = db.Column(
         db.Integer,
         primary_key=True
@@ -50,7 +50,6 @@ class NomVern(db.Model):
     id_sources = db.Column(ARRAY(db.Integer))
     meta_create_date = db.Column(db.DateTime)
     meta_update_date = db.Column(db.DateTime)
-
 
 
 @serializable

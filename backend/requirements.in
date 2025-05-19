@@ -1,0 +1,11 @@
+
+pypnusershub
+https://github.com/PnX-SI/Nomenclature-api-module/archive/1.6.4.zip
+Click
+flask>=3.0
+flask-cors
+flask-sqlalchemy
+psycopg2
+sqlalchemy<2.0
+gunicorn>=19.8.0
+

@@ -2,7 +2,7 @@
     Routes correspondantes à l'API de flora occitania
     GET/POST
 """
-from flask import Blueprint, request, current_app
+from flask import Blueprint, request, current_app, g
 from sqlalchemy.orm.exc import NoResultFound
 
 from pypnusershub.routes import check_auth
@@ -64,12 +64,13 @@ def get_taxon_list(id=None):
     }
 
 
-@adresses.route('/<int:cd_ref>', methods=['POST'])
-@check_auth(1, True)
-def post_taxon_nomVern(cd_ref, id_role):
+@adresses.route("/<int:cd_ref>", methods=["POST"])
+@check_auth(1)
+def post_taxon_nomVern(cd_ref):
     """
         Sauvegarde un nom vernaculaire
     """
+    id_role = g.current_user.id_role
     data = request.json
     lst_nom_verns = data['params']['nomVerns']
 
