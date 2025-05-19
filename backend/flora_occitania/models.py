@@ -1,26 +1,21 @@
 """
-    Définition des models
+Définition des models
 """
+
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import ARRAY
 
-from app.database import db
-from app.utils import serializable
+from flora_occitania.database import db
+from flora_occitania.utils import serializable
 
 
 @serializable
 class CorTaxonAttribut(db.Model):
     __tablename__ = "cor_taxon_attribut"
     __table_args__ = {"schema": "taxonomie", "extend_existing": True}
-    id_attribut = db.Column(
-        db.Integer,
-        primary_key=True
-    )
-    cd_ref = db.Column(
-        db.Integer,
-        primary_key=True
-    )
+    id_attribut = db.Column(db.Integer, primary_key=True)
+    cd_ref = db.Column(db.Integer, primary_key=True)
     valeur_attribut = db.Column(db.Text, nullable=False)
 
 
@@ -71,5 +66,5 @@ class ListTaxon(db.Model):
         "NomVern",
         backref="group",
         primaryjoin="NomVern.cd_ref == ListTaxon.cd_ref",
-        foreign_keys="NomVern.cd_ref"
+        foreign_keys="NomVern.cd_ref",
     )

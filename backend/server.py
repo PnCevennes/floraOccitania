@@ -6,7 +6,7 @@ from pypnusershub.auth import auth_manager
 
 import datetime
 
-from app.database import db
+from flora_occitania.database import db
 
 db = db
 
@@ -41,7 +41,8 @@ def init_app():
         from pypnnomenclature.routes import routes
         app.register_blueprint(routes, url_prefix="/nomenclatures")
 
-        from app.routes import adresses
+        from flora_occitania.routes import adresses
+
         app.register_blueprint(adresses, url_prefix='')
 
     return app

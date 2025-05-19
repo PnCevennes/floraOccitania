@@ -12,3 +12,6 @@ if db_path:
     db = getattr(db_module, db_object_name)
 else:
     db = SQLAlchemy()
+    environ["FLASK_SQLALCHEMY_DB"] = "flora_occitania.database.db"
+
+import os
