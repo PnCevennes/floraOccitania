@@ -1,35 +1,26 @@
-# floraOccitania
-Sasie des noms vernaculaire en occitan et de données ethnobotanique
+# flora_occitania
 
+Saisie des noms vernaculaire en occitan et de données ethnobotanique
+ 
+## Customize configuration
 
-### Captures d'écrans
+`cp src/assets/config.ts.sample src/assets/config.ts
+ 
 
-<img src="docs/images/capture_dashboard.png" width="400">
-<img src="docs/images/capture_detail.png" width="400">
-<img src="docs/images/capture_saisie.png" width="400">
+## Project Setup
 
-## Installation 
-### Prerequis
-* apache 
-* supervisorctl
-
-### nodejs et angular
+```sh
+npm install
 ```
-curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-sudo apt-get install -y nodejs
 
-sudo npm install -g @angular/cli
+### Compile and Hot-Reload for Development
+
+```sh
+npm run dev
 ```
-### Configuration apache2
-```
-Alias /flora_occitania /APP_DIR/floraOccitania/frontend/flora-occitania/dist
-<Directory /APP_DIR/floraOccitania/frontend/flora-occitania/dist>
-    Options Indexes FollowSymLinks MultiViews
-    AllowOverride All
-    Require all granted
-</Directory>
-```
-### Build application
-```
-ng build --prod --base-href /flora_occitania/
+
+### Type-Check, Compile and Minify for Production
+
+```sh
+npm run build
 ```
