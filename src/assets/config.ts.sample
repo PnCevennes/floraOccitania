@@ -1,0 +1,6 @@
+export default {
+  appName: 'Flora Occitania',
+  apiUrl: 'http://localhost:8000/',
+  idList: 68,
+  limit: 300,
+}
