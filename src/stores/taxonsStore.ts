@@ -110,7 +110,10 @@ export const TaxonsStore = defineStore("taxon", {
             const matchSearchOccitan = (item.agg_noms_occ || "")
               .toLowerCase()
               .includes(state.search.toLowerCase());
-            return matchSearchOccitan || matchSearchComplet;
+            const matchSearchVern = (item.nom_vern || "")
+              .toLowerCase()
+              .includes(state.search.toLowerCase());
+            return matchSearchOccitan || matchSearchComplet || matchSearchVern;
           });
       }
       return (

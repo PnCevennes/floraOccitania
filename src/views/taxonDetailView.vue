@@ -2,7 +2,7 @@
   <div v-if="taxonDetail">
     <div class="p-3">
       <div class="row">
-        <div class="col">
+        <div class="col d-flex flex-column">
           <h1>
             <i>{{ taxonDetail?.nom_complet }}</i>
           </h1>
@@ -19,6 +19,16 @@
             <BButton href="#usages" class="btn btn-success"
               ><i class="bi bi-egg-fried"
                 ><span class="p-2">Usages traditionnels</span></i
+              ></BButton
+            >
+          </div>
+          <div class="pt-3 mt-auto text-end">
+            <BButton
+              :href="`https://biodiversite.cevennes-parcnational.fr/espece/${cd_ref}`"
+              target="_blank"
+              class="btn btn-warning"
+              ><i class="bi bi-box-arrow-up-right"
+                ><span class="p-2">Biodiv'Cévennes</span></i
               ></BButton
             >
           </div>
@@ -43,7 +53,9 @@
     </div>
     <section id="noms">
       <div class="m-3 p-3 border">
-        <h3 class="p-3 mb-2 bg-success text-white">Dénominations locales</h3>
+        <h3 class="p-3 mb-2 bg-success text-white">
+          <i class="bi bi-leaf"></i> Dénominations locales
+        </h3>
         <div v-for="(item, index) in taxonDetail.noms_occ" :key="item.id">
           <div class="m-3 p-3 border" v-if="item.nom">
             <h2>{{ item.nom }}</h2>
@@ -81,7 +93,9 @@
     <section id="usages">
       <div class="m-3 p-3 border">
         <div class="pt-3">
-          <h3 class="p-3 mb-2 bg-success text-white">Usages traditionnels</h3>
+          <h3 class="p-3 mb-2 bg-success text-white">
+            <i class="bi bi-egg-fried"></i> Usages traditionnels
+          </h3>
           <div class="pt-3">
             <div>
               <u class="bi bi-flower2"
