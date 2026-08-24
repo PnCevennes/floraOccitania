@@ -4,7 +4,7 @@
       <div
         v-for="item in taxonsListStore.visibleItems"
         :key="item.id"
-        class="col-12 col-md-6 col-lg-3"
+        class="col-12 col-md-6 col-lg-3 mb-2"
       >
         <taxonCard :taxonData="item"></taxonCard>
       </div>
@@ -25,16 +25,18 @@ const taxonsListStore = TaxonsStore();
 const trigger = ref<HTMLElement | null>(null);
 
 onMounted(() => {
-  const observer = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
-     if (
-      entries[0] &&
-      entries[0].isIntersecting &&
-      taxonsListStore.hasMore &&
-      taxonsListStore.init
-    ) {
-      taxonsListStore.loadMore();
-    }
-  });
+  const observer = new IntersectionObserver(
+    (entries: IntersectionObserverEntry[]) => {
+      if (
+        entries[0] &&
+        entries[0].isIntersecting &&
+        taxonsListStore.hasMore &&
+        taxonsListStore.init
+      ) {
+        taxonsListStore.loadMore();
+      }
+    },
+  );
 
   if (!trigger.value) return;
 

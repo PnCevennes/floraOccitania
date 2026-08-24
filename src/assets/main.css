@@ -1,5 +1,27 @@
 @import "./base.css";
-/* 
+
+.org-navbar {
+  background-color: #ffffff; /* couleur principale */
+}
+
+.org-navbar .navbar-brand,
+.org-navbar .nav-link,
+.org-navbar .navbar-toggler-icon {
+  color: #f29000 !important;
+}
+
+.org-navbar .nav-link:hover {
+  color: #ffca7a !important;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-pointer:hover {
+  color: #ffbb00;
+  opacity: 0.8;
+}
+/*
 #app {
   max-width: 1280px;
   margin: 0 auto;

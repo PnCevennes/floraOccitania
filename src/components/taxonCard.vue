@@ -6,16 +6,23 @@
     img-top
     tag="article"
     style="max-width: 20rem"
-    class="mb-2 card-fixed-img"
+    class="mb-2 card-fixed-img h-100 d-flex flex-column"
   >
-    <b-card-text>
-      <div>{{ taxonData.nom_complet }}</div>
+    <b-card-text class="flex-grow-1">
+      <div>
+        <i>{{ taxonData.nom_complet }}</i>
+      </div>
       <div>{{ taxonData.nom_vern }}</div>
     </b-card-text>
 
-    <b-button :to="'detail/' + taxonData.cd_ref" variant="primary"
-      >Détail</b-button
+    <div
+      class="text-center mt-auto"
+      style="position: absolute; bottom: 5px; right: 20px"
     >
+      <BButton :to="'detail/' + taxonData.cd_ref" class="bg-success">
+        En savoir plus <i class="bi bi-box-arrow-up-right"></i>
+      </BButton>
+    </div>
   </b-card>
 </template>
 <style>

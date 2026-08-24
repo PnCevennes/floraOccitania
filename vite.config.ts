@@ -9,7 +9,7 @@ import {BootstrapVueNextResolver} from 'bootstrap-vue-next/resolvers'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/flora_occitania/',
+  base: '/flors_cevenas/',
   plugins: [
     vue(),
     vueDevTools(),
