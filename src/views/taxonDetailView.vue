@@ -61,31 +61,33 @@
             <h2>{{ item.nom }}</h2>
             <div class="pt-3">{{ item.commentaire }}</div>
 
-            <div class="pt-3">
+            <div class="pt-3" v-if="(item.localisation || []).length > 0">
               <u class="bi bi-geo"><b>Localisation de la dénomination :</b> </u>
+              <ul>
+                <li v-for="loc in item.localisation" :key="loc.id">
+                  {{ loc }}
+                </li>
+              </ul>
             </div>
-            <ul>
-              <li v-for="loc in item.localisation" :key="loc.id">
-                {{ loc }}
-              </li>
-            </ul>
-            <h5
-              v-b-toggle="'collapse-' + index"
-              class="cursor-pointer hover:text-primary-emphasis"
-            >
-              <u class="bi bi-journal-plus"> Bibliographie : </u>
-            </h5>
-            <BCollapse :id="'collapse-' + index">
-              <BCard class="mt-2 border-0">
-                <div
-                  class="pt-3"
-                  v-for="source in item.sources"
-                  :key="source.id"
-                >
-                  {{ source }}
-                </div>
-              </BCard>
-            </BCollapse>
+            <div class="pt-3">
+              <h5
+                v-b-toggle="'collapse-' + index"
+                class="cursor-pointer hover:text-primary-emphasis"
+              >
+                <u class="bi bi-journal-plus"> Bibliographie : </u>
+              </h5>
+              <BCollapse :id="'collapse-' + index">
+                <BCard class="mt-2 border-0">
+                  <div
+                    class="pt-3"
+                    v-for="source in item.sources"
+                    :key="source.id"
+                  >
+                    {{ source }}
+                  </div>
+                </BCard>
+              </BCollapse>
+            </div>
           </div>
         </div>
       </div>
@@ -97,11 +99,11 @@
             <i class="bi bi-egg-fried"></i> Usages traditionnels
           </h3>
           <div class="pt-3">
-            <div>
+            <h5>
               <u class="bi bi-flower2"
                 ><b class="p-1">Parties utilisées :</b></u
               >
-            </div>
+            </h5>
             <ul>
               <li v-for="val in usages.usage_partie" :key="val.id">
                 {{ val }}
@@ -109,23 +111,21 @@
             </ul>
           </div>
           <div class="pt-3">
-            <div>
+            <h5>
               <u class="bi bi-lightbulb"><b class="p-1">Type d'usage :</b></u>
-            </div>
+            </h5>
             <ul>
               <li v-for="val in usages.usage_type" :key="val.id">
                 {{ val }}
               </li>
             </ul>
           </div>
-          <div>
+          <h5>
             <u class="bi bi-journal-medical"
               ><b class="p-1">Description des usages :</b></u
             >
-          </div>
-          <span style="white-space: pre-wrap">{{
-            usages.usage_description
-          }}</span>
+          </h5>
+          <div v-html="usages.usage_description" class="mt-3"></div>
         </div>
       </div>
     </section>
@@ -134,7 +134,7 @@
 
 <script setup>
 import { computed, onMounted, ref } from "vue";
-
+import { marked } from "marked";
 import { useRoute } from "vue-router";
 
 import { TaxonsStore } from "@/stores/taxonsStore";
@@ -157,7 +157,7 @@ const usages = computed(() => {
     } else if (element.bib_attribut?.nom_attribut == "usage_type") {
       usages.usage_type = element.valeur_attribut.split("&");
     } else if (element.bib_attribut?.nom_attribut == "usage_description") {
-      usages.usage_description = element.valeur_attribut;
+      usages.usage_description = marked(element.valeur_attribut);
     }
   });
   return usages;
