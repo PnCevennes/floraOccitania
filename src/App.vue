@@ -21,7 +21,7 @@
           <b-nav-item to="/">Accueil</b-nav-item>
           <b-nav-item to="/projet">Présentation</b-nav-item>
           <b-nav-item
-            href="https://www.cevennes-parcnational.fr/fr/le-parc-national-des-cevennes/la-reglementation-du-coeur"
+            href="https://www.cevennes-parcnational.fr/fr/le-parc-national-des-cevennes/la-reglementation-du-coeur/la-cueillette-et-le-prelevement-despeces"
             target="_blank"
             rel="noopener noreferrer"
             ><i class="bi bi-box-arrow-up-right"></i> La
