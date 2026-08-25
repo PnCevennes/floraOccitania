@@ -59,10 +59,12 @@ export const TaxonsStore = defineStore("taxon", {
           (item) => item.bib_attribut?.nom_attribut == "nom_occitan",
         );
         try {
-          taxonList.noms_occ = JSON.parse(occ_attr[0].valeur_attribut);
-          taxonList.agg_noms_occ = taxonList.noms_occ
-            .map((item) => item.nom)
-            .join(", ");
+          if (occ_attr[0] !== undefined) {
+            taxonList.noms_occ = JSON.parse(occ_attr[0].valeur_attribut);
+            taxonList.agg_noms_occ = taxonList.noms_occ
+              .map((item) => item.nom)
+              .join(", ");
+          }
         } catch (error) {
           console.log(item.nom_complet, error);
         }
