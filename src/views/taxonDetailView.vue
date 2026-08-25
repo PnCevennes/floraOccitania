@@ -26,7 +26,9 @@
             <BButton
               :href="`https://biodiversite.cevennes-parcnational.fr/espece/${cd_ref}`"
               target="_blank"
-              class="btn btn-warning"
+              class="btn bg-white hover-gray"
+              style="color: #f29000"
+              title="En savoir plus sur cette espèce sur notre site Biodiv'Cévennes"
               ><i class="bi bi-box-arrow-up-right"
                 ><span class="p-2">Biodiv'Cévennes</span></i
               ></BButton
@@ -132,6 +134,12 @@
   </div>
 </template>
 
+<style>
+.hover-gray:hover {
+  background-color: var(--bs-gray-300) !important;
+  color: white;
+}
+</style>
 <script setup>
 import { computed, onMounted, ref } from "vue";
 import { marked } from "marked";
