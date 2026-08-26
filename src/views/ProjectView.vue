@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Flors de Cevenas</h1>
+    <h1 class="m-3 text-center">Flors de Cevenas</h1>
     <div>
       <p>
         La langue occitane est un vecteur privilégié de transmission des savoirs
@@ -33,6 +33,21 @@
         Cévennes. Cependant, elle se pratique aujourd’hui dans le cadre
         réglementé du parc national afin de concilier préservation de la
         biodiversité et transmission des savoir-faire.
+        <a
+          href="https://www.cevennes-parcnational.fr/fr/le-parc-national-des-cevennes/la-reglementation-du-coeur/la-cueillette-et-le-prelevement-despeces"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Détail de la réglementation sur le site du Parc</a
+        >
+      </p>
+      <p>
+        <b
+          >Attention: les propriétés décrites ici sont présentées à titre
+          informatif. Elles sont basées sur des usages traditionnels mais
+          l’utilisation des plantes, qu’elle soit alimentaire ou médicinale,
+          doit se faire avec prudence. Ne consommez jamais une plante sans être
+          sûr de son identification et de son usage approprié.</b
+        >
       </p>
     </div>
     <div class="text-center">

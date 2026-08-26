@@ -4,7 +4,7 @@
     <b-navbar toggleable="lg" class="sticky-top bg-light org-navbar">
       <b-navbar-brand to="/">
         <img
-          src="https://destination.cevennes-parcnational.fr/medias/img/Spirale_orange_512pxl.png"
+          src="/Spirale_orange_512pxl.png"
           width="30"
           height="30"
           class="d-inline-block align-top"
@@ -24,8 +24,8 @@
             href="https://www.cevennes-parcnational.fr/fr/le-parc-national-des-cevennes/la-reglementation-du-coeur/la-cueillette-et-le-prelevement-despeces"
             target="_blank"
             rel="noopener noreferrer"
-            ><i class="bi bi-box-arrow-up-right"></i> La
-            réglementation</b-nav-item
+            ><i class="bi bi-box-arrow-up-right"></i> La réglementation du
+            Parc</b-nav-item
           >
         </b-navbar-nav>
 
@@ -35,7 +35,7 @@
       </b-collapse>
     </b-navbar>
 
-    <div class="container">
+    <div class="container mt-3">
       <router-view />
     </div>
   </BApp>
